@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>AlarmPage.qml</file>
+        <file>AlarmDelegate.qml</file>
+        <file>AlarmModel.qml</file>
+        <file>AddButton.qml</file>
+    </qresource>
+</RCC>
