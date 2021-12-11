@@ -12,13 +12,26 @@ ApplicationWindow {
 	visible: true
 	title: qsTr("Scroll")
 
-
 	Material.accent: Material.Purple
+
+	onClosing: function(close) {
+		print("closing");
+		close.accepted = true;
+	}
 
 	StackView {
 		id: idMainStack
 		initialItem: idMainPage
 		anchors.fill: parent
+		focus: true
+
+		Keys.onBackPressed: function(event) {
+			if (idMainStack.depth > 1) {
+				idMainStack.pop();
+			} else {
+				event.accepted = false;
+			}
+		}
 
 		pushEnter: Transition {
 			NumberAnimation { property: "x"; from: idMainStack.width; to: 0 }
