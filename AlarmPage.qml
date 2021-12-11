@@ -5,6 +5,9 @@ import QtQuick.Controls
 ListView {
 	property int indx: 0
 
+	function addNewAlarm() {
+	}
+
 	id: idAlarmList
 
 	spacing: 0

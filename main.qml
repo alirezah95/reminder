@@ -1,5 +1,5 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick.Controls 2.5
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
 import Qt5Compat.GraphicalEffects
@@ -15,62 +15,102 @@ ApplicationWindow {
 
 	Material.accent: Material.Purple
 
-	SwipeView {
-		id: idMainSwipe
+	StackView {
+		id: idMainStack
+		initialItem: idMainPage
 		anchors.fill: parent
-		currentIndex: idFooter.currentIndex
 
-		AlarmPage {
-
+		pushEnter: Transition {
+			NumberAnimation { property: "x"; from: idMainStack.width; to: 0 }
 		}
-
-		Label {
-			id: idSecLbl
-			text: "Second page"
-			horizontalAlignment: Text.AlignHCenter
-			verticalAlignment: Text.AlignVCenter
-			font.pointSize: 30
-		}
-		Label {
-			id: idThrdLbl
-			text: "Third page"
-			horizontalAlignment: Text.AlignHCenter
-			verticalAlignment: Text.AlignVCenter
-			font.pointSize: 30
+		pushExit: Transition {
+			NumberAnimation { property: "opacity"; from: 1; to: 0 }
 		}
 	}
 
-	header: TabBar {
-		id: idFooter
-		currentIndex: idMainSwipe.currentIndex
+	Component {
+		id: idMainPage
+		Page {
+			SwipeView {
+				id: idMainSwipe
+				anchors.fill: parent
+				currentIndex: idHeader.currentIndex
 
-		TabButton {
-			text: qsTr("Alarms")
-		}
-		TabButton {
-			text: qsTr("Time")
-		}
-		TabButton {
-			text: qsTr("Chrono")
+				AlarmPage {
+					id: idAlPage
+				}
+
+				Label {
+					id: idSecLbl
+					text: "Second page"
+					color: "purple"
+					background: Rectangle {
+						anchors.fill: parent
+						color: "gray"
+					}
+
+					horizontalAlignment: Text.AlignHCenter
+					verticalAlignment: Text.AlignVCenter
+					font.pointSize: 30
+				}
+				Label {
+					id: idThrdLbl
+					text: "Third page"
+					horizontalAlignment: Text.AlignHCenter
+					verticalAlignment: Text.AlignVCenter
+					font.pointSize: 30
+				}
+			}
+
+			header: TabBar {
+				id: idHeader
+				currentIndex: idMainSwipe.currentIndex
+
+				TabButton {
+					text: qsTr("Alarms")
+				}
+				TabButton {
+					text: qsTr("Time")
+				}
+				TabButton {
+					text: qsTr("Chrono")
+				}
+			}
+
+			Rectangle {
+				property var sourceItem: this
+				id: idShadow
+				width: idAddNew.width * 1.3; height: width
+				anchors.centerIn: idAddNew
+				anchors.verticalCenterOffset: 10
+				radius: idAddNew.radius
+				color: "transparent"
+				layer.enabled: true
+				layer.effect: ElevationEffect {
+					elevation: 15
+					source: idShadow
+				}
+			}
+
+			AddButton {
+				id: idAddNew
+				onReleased: {
+					print("AddButton pressed...");
+					idMainStack.push(idAlrmDlg)
+					idAlPage.addNewAlarm();
+				}
+			}
 		}
 	}
 
-	Rectangle {
-		property var sourceItem: this
-		id: idShadow
-		width: idAddNew.width * 1.3; height: width
-		anchors.centerIn: idAddNew
-		anchors.verticalCenterOffset: 10
-		radius: idAddNew.radius
-		color: "transparent"
-		layer.enabled: true
-		layer.effect: ElevationEffect {
-			elevation: 15
-			source: idShadow
+	Component {
+		id: idAlrmDlg
+		Item {
+			Label {
+				text: "hello from dlg"
+				font.pointSize: 30
+				color: "white"
+			}
 		}
-	}
-
-	AddButton {
-		id: idAddNew
 	}
 }
