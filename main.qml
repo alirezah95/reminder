@@ -15,7 +15,6 @@ ApplicationWindow {
 	Material.accent: Material.Purple
 
 	onClosing: function(close) {
-		print("closing");
 		close.accepted = true;
 	}
 
@@ -32,12 +31,18 @@ ApplicationWindow {
 				event.accepted = false;
 			}
 		}
-
 		pushEnter: Transition {
 			NumberAnimation { property: "x"; from: idMainStack.width; to: 0 }
 		}
 		pushExit: Transition {
 			NumberAnimation { property: "opacity"; from: 1; to: 0 }
+		}
+
+		popEnter: Transition {
+			NumberAnimation { property: "opacity"; from: 0; to: 1 }
+		}
+		popExit: Transition {
+			NumberAnimation { property: "x"; from: 0; to:idMainStack.width }
 		}
 	}
 
@@ -109,8 +114,7 @@ ApplicationWindow {
 				id: idAddNew
 				onReleased: {
 					print("AddButton pressed...");
-					idMainStack.push(idAlrmDlg)
-					idAlPage.addNewAlarm();
+					idMainStack.push(idAlrmDlg);
 				}
 			}
 		}
