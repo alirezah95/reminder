@@ -1,6 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "alarmtime.hpp"
+
 
 int main(int argc, char *argv[])
 {
@@ -9,6 +11,10 @@ int main(int argc, char *argv[])
 #endif
 
 	QGuiApplication app(argc, argv);
+
+	QScopedPointer at(new AlarmTime);
+	qmlRegisterSingletonInstance<AlarmTime>("alarmtime", 0, 1, "AlarmTime",
+											&*at);
 
 	QQmlApplicationEngine engine;
 	const QUrl url(QStringLiteral("qrc:/main.qml"));

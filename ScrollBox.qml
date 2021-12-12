@@ -7,6 +7,8 @@ Item {
 	property int from: 0
 	property int to: 10
 
+	function currentIndex() { return idView.currentIndex; }
+
 	ListModel {
 		id: idModel
 	}
@@ -21,7 +23,10 @@ Item {
 		boundsBehavior: Flickable.StopAtBounds
 		bottomMargin: 0
 		topMargin: 0
-		width: parent.width
+		currentIndex: indexAt(0, contentY + height / 2);
+		anchors.left: boxAlignment === Qt.AlignLeft ? parent.left: undefined;
+		anchors.right: boxAlignment === Qt.AlignRight ? parent.right: undefined;
+		width: idRoot.width / 5
 		onContentHeightChanged: {
 			var h = contentHeight / (to - from);
 			bottomMargin = 2 * h;
@@ -30,15 +35,12 @@ Item {
 		}
 		delegate: Label{
 			id: idLbl
-			x: boxAlignment === Qt.AlignRight ? idView.width - width: 0;
 			text: value
-			width: idRoot.width / 10.0;
 			horizontalAlignment: Text.AlignHCenter
 			font.pointSize: pointSize
-			font.bold: opacity === 1.0;
+			font.bold: opacity === 1.0
 			opacity: {
-				var i = idView.indexAt(x, idView.contentY + idView.height / 2);
-				if (index === i)
+				if (index === idView.currentIndex)
 					return 1;
 				else
 					return 0.4;

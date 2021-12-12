@@ -6,7 +6,4 @@ ListModel {
 	}
 
 	id: idAlarmMdl
-//	ListElement {
-//		time: "08:40"; day: "Tuesday"
-//	}
 }
