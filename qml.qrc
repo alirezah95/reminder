@@ -6,5 +6,7 @@
         <file>AlarmDelegate.qml</file>
         <file>AlarmModel.qml</file>
         <file>AddButton.qml</file>
+        <file>NewAlarm.qml</file>
+        <file>ScrollBox.qml</file>
     </qresource>
 </RCC>

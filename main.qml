@@ -113,7 +113,6 @@ ApplicationWindow {
 			AddButton {
 				id: idAddNew
 				onReleased: {
-					print("AddButton pressed...");
 					idMainStack.push(idAlrmDlg);
 				}
 			}
@@ -122,12 +121,6 @@ ApplicationWindow {
 
 	Component {
 		id: idAlrmDlg
-		Item {
-			Label {
-				text: "hello from dlg"
-				font.pointSize: 30
-				color: "white"
-			}
-		}
+		NewAlarm {}
 	}
 }
