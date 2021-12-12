@@ -8,5 +8,7 @@
         <file>AddButton.qml</file>
         <file>NewAlarm.qml</file>
         <file>ScrollBox.qml</file>
+        <file>assets/close.png</file>
+        <file>assets/done.png</file>
     </qresource>
 </RCC>

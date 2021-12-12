@@ -2,8 +2,8 @@ import QtQuick 2.0
 import QtQuick.Controls
 
 Item {
+	readonly property alias viewWidth: idView.width
 	property double pointSize: 20
-	property int boxAlignment: Qt.AlignLeft
 	property int from: 0
 	property int to: 10
 
@@ -24,9 +24,7 @@ Item {
 		bottomMargin: 0
 		topMargin: 0
 		currentIndex: indexAt(0, contentY + height / 2);
-		anchors.left: boxAlignment === Qt.AlignLeft ? parent.left: undefined;
-		anchors.right: boxAlignment === Qt.AlignRight ? parent.right: undefined;
-		width: idRoot.width / 5
+		width: idRoot.width / 8
 		onContentHeightChanged: {
 			var h = contentHeight / (to - from);
 			bottomMargin = 2 * h;

@@ -7,8 +7,8 @@ import QtQuick.Shapes
 
 ApplicationWindow {
 	id: idRoot
-	width: 540
-	height: 960
+	width: (Qt.platform.os in ["android", "ios"]) ? Screen.width: 540
+	height: (Qt.platform.os in ["android", "ios"]) ? Screen.height: 960
 	visible: true
 	title: qsTr("Scroll")
 
