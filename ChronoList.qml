@@ -3,8 +3,14 @@ import QtQuick.Controls
 
 ListView {
 	function addRecord(txt) {
-		idModel.append({ recTxt: txt });
+		if (count > 0)
+			itemAtIndex(0).opacity = 0.9;
+		idModel.insert(0, { recTxt: txt });
 		return;
+	}
+
+	function clear() {
+		idModel.clear();
 	}
 
 	id: idView
@@ -17,14 +23,21 @@ ListView {
 	model: idModel
 	delegate: Label {
 		width: idView.width;
-		text: index + ". " + model.recTxt
-		font.pointSize: idChrn.fontPSize * 0.6
-		font.weight: Font.Light
+		text: model.recTxt
+		font.family: idMonoFont.name
+		font.pointSize: idChrn.fontPSize * 0.5
 	}
 	header: Rectangle {
 		color: Material.accent
 		opacity: 0.6
 		width: idView.width
-		height: 2
+		height: 3
+	}
+	add: Transition {
+		NumberAnimation { property: "opacity"; from: 0; to: 0.9
+			duration: 300; easing.type: Easing.InQuint }
+	}
+	addDisplaced: Transition {
+		NumberAnimation { property: "y"; duration: 200 }
 	}
 }
