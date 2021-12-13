@@ -34,14 +34,24 @@ Item {
 		delegate: Label{
 			id: idLbl
 			text: value
+			width: idView.width
 			horizontalAlignment: Text.AlignHCenter
 			font.pointSize: pointSize
-			font.bold: opacity === 1.0
+			color: Material.foreground
+			font.weight: opacity > 0.4 ? Font.ExtraBold: Font.Light
 			opacity: {
-				if (index === idView.currentIndex)
-					return 1;
-				else
-					return 0.4;
+				var op = 0.4;
+				var center = idView.height / 2;
+				var halfH = this.height / 2.5;
+				var fst = idView.indexAt(0, idView.contentY + center + halfH);
+				var sec = idView.indexAt(0, idView.contentY + center - halfH);
+				if (index === sec) {
+					op += 0.3;
+				}
+				if (index === fst){
+					op += 0.3;
+				}
+				return op;
 			}
 		}
 

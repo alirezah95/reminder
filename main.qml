@@ -13,6 +13,10 @@ ApplicationWindow {
 	title: qsTr("Scroll")
 
 	Material.accent: Material.Purple
+	Material.background: Material.color(Material.Grey,
+										Material.theme === Material.Dark
+										? Material.Shade900:
+										  Material.Shade50);
 
 	onClosing: function(close) {
 		close.accepted = true;
