@@ -20,24 +20,21 @@ ListView {
 		timeText: index + ": " + time; dayText: day
 	}
 
-	Rectangle {
-		property var sourceItem: this
-		id: idShadow
-		width: idAddNew.width * 1.3; height: width
-		anchors.centerIn: idAddNew
-		anchors.verticalCenterOffset: 10
-		radius: idAddNew.radius
-		color: "transparent"
-		layer.enabled: true
-		layer.effect: ElevationEffect {
-			elevation: 15
-			source: idShadow
-		}
-	}
 
-	AddButton {
+	CButton {
 		id: idAddNew
-		onReleased: {
+		anchors {
+			bottom: parent.bottom
+			bottomMargin: 30
+			horizontalCenter: parent.horizontalCenter
+		}
+		contentItem: Text {
+			text: "+"
+			horizontalAlignment: Qt.AlignHCenter
+			verticalAlignment: Qt.AlignVCenter
+			color: "black"
+		}
+		onButtonReleased: {
 			idMainStack.push(idAlrmDlg);
 		}
 	}
