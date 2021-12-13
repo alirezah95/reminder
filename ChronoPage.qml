@@ -60,12 +60,6 @@ Item {
 		}
 	}
 
-//	Rectangle {
-//		anchors.fill: idChList
-//		color: "lightblue"
-//		opacity: 0.5
-//	}
-
 	ChronoList {
 		property double topM: idRoot.height / 12
 		property double leftM: idRoot.width / 15
