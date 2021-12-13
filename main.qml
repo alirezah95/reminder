@@ -24,6 +24,10 @@ ApplicationWindow {
 		id: idFont
 		source: "qrc:/assets/DejaVuSans.ttf"
 	}
+	FontLoader {
+		id: idMonoFont
+		source: "qrc:/assets/DejaVuSansMono.ttf"
+	}
 
 	StackView {
 		id: idMainStack

@@ -20,9 +20,9 @@ Item {
 		interval: 10; running: false; repeat: true
 		onTriggered: {
 			Chrono.update();
-			idMinLbl.text = (Chrono.min < 10 ? "0" : "") + String(Chrono.min);
-			idSecLbl.text = (Chrono.sec < 10 ? "0" : "") + String(Chrono.sec);
-			idMSecLbl.text = String(Chrono.msec);
+			idMinLbl.text = (Chrono.min < 10 ? "0" : "") + Chrono.min;
+			idSecLbl.text = (Chrono.sec < 10 ? "0" : "") + Chrono.sec;
+			idMSecLbl.text = (Chrono.msec < 10 ? "0" : "") + Chrono.msec;
 		}
 	}
 
@@ -60,11 +60,11 @@ Item {
 		}
 	}
 
-	Rectangle {
-		anchors.fill: idChList
-		color: "lightblue"
-		opacity: 0.5
-	}
+//	Rectangle {
+//		anchors.fill: idChList
+//		color: "lightblue"
+//		opacity: 0.5
+//	}
 
 	ChronoList {
 		property double topM: idRoot.height / 12
@@ -93,7 +93,10 @@ Item {
 			NumberAnimation { duration: 200 }
 		}
 
-		onButtonReleased: idChrn.state = "Idle";
+		onButtonReleased: {
+			idChrn.state = "Idle";
+			idChList.clear();
+		}
 	}
 
 	CButton {
@@ -107,8 +110,10 @@ Item {
 		}
 
 		onButtonReleased: {
-			idChList.addRecord(idMinLbl.text + ":" + idSecLbl.text + "."
-							   + idMSecLbl.text);
+			if (idChrn.state === "Start")
+				idChList.addRecord(idChList.count + 1 + ". " + idMinLbl.text
+								   + ":" + idSecLbl.text + "."
+								   + idMSecLbl.text);
 		}
 	}
 

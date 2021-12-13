@@ -19,6 +19,7 @@
         <file>chrono.js</file>
         <file>assets/DejaVuSans.ttf</file>
         <file>ChronoList.qml</file>
-		<file>assets/flag.png</file>
+        <file>assets/flag.png</file>
+        <file>assets/DejaVuSansMono.ttf</file>
     </qresource>
 </RCC>
