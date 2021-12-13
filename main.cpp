@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QFontDatabase>
 
 #include "alarmtime.hpp"
 
@@ -24,6 +25,14 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 	engine.load(url);
+
+	auto id = QFontDatabase::addApplicationFont(":/assets/DejaVuSans.ttf");
+	if (id < 0) {
+		qDebug() << "Error in loading font";
+		return -1;
+	}
+	auto defaultFont = QFont(QFontDatabase::applicationFontFamilies(id)[0]);
+	app.setFont(defaultFont);
 
 	return app.exec();
 }

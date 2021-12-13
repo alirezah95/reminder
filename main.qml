@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Controls 2.5
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
@@ -18,6 +18,11 @@ ApplicationWindow {
 
 	onClosing: function(close) {
 		close.accepted = true;
+	}
+
+	FontLoader {
+		id: idFont
+		source: "qrc:/assets/DejaVuSans.ttf"
 	}
 
 	StackView {

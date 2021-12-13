@@ -16,5 +16,7 @@
         <file>assets/play.png</file>
         <file>assets/pause.png</file>
         <file>assets/plus.png</file>
+        <file>chrono.js</file>
+        <file>assets/DejaVuSans.ttf</file>
     </qresource>
 </RCC>
