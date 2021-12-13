@@ -27,11 +27,17 @@ Item {
 	}
 
 	RowLayout {
+		id: idTimeRow
 		anchors {
 			horizontalCenter: parent.horizontalCenter
 			top: parent.top
 			topMargin: parent.height / 4
 		}
+
+		Behavior on anchors.topMargin {
+			NumberAnimation { duration: 200 }
+		}
+
 		Label {
 			id: idMinLbl
 			Layout.preferredWidth: preferredWidth
@@ -54,6 +60,29 @@ Item {
 		}
 	}
 
+	Rectangle {
+		anchors.fill: idChList
+		color: "lightblue"
+		opacity: 0.5
+	}
+
+	ChronoList {
+		property double topM: idRoot.height / 12
+		property double leftM: idRoot.width / 15
+
+		id: idChList
+		anchors {
+			top: idTimeRow.bottom
+			topMargin: topM
+			bottom: idStop.top
+			bottomMargin: topM
+			left: parent.left
+			leftMargin: leftM
+			right: parent.right
+			rightMargin: leftM
+		}
+	}
+
 	CButton {
 		id: idStop
 		anchors.centerIn: idStartPause
@@ -66,6 +95,23 @@ Item {
 
 		onButtonReleased: idChrn.state = "Idle";
 	}
+
+	CButton {
+		id: idLap
+		anchors.centerIn: idStartPause
+		icon.source: "qrc:/assets/flag.png"
+		visible: false
+
+		Behavior on anchors.horizontalCenterOffset {
+			NumberAnimation { duration: 200 }
+		}
+
+		onButtonReleased: {
+			idChList.addRecord(idMinLbl.text + ":" + idSecLbl.text + "."
+							   + idMSecLbl.text);
+		}
+	}
+
 
 	CButton {
 		id: idStartPause
@@ -95,12 +141,17 @@ Item {
 	states: [
 		State {
 			name: "Idle"
+			PropertyChanges { target: idTimeRow;
+				anchors.topMargin: parent.height / 4
+			}
 			PropertyChanges { target: idTimer; running: false }
 			PropertyChanges { target: idStop; visible: false
 				anchors.horizontalCenterOffset: 0
 			}
-			PropertyChanges { target: idStartPause
+			PropertyChanges { target: idLap; visible: false
 				anchors.horizontalCenterOffset: 0
+			}
+			PropertyChanges { target: idStartPause
 				icon.source: "qrc:/assets/play.png"
 			}
 			PropertyChanges { target: idMinLbl; text: "00" }
@@ -109,23 +160,25 @@ Item {
 		},
 		State {
 			name: "Start"
+			PropertyChanges { target: idTimeRow;
+				anchors.topMargin: parent.height / 10
+			}
 			PropertyChanges { target: idTimer; running: true }
 			PropertyChanges { target: idStop; visible: true
-				anchors.horizontalCenterOffset: -(idStartPause.width + 20)
+				anchors.horizontalCenterOffset: -(idStartPause.width + 15)
+			}
+			PropertyChanges { target: idLap; visible: true
+				anchors.horizontalCenterOffset: idStartPause.width + 15
 			}
 			PropertyChanges { target: idStartPause
-				anchors.horizontalCenterOffset: idStartPause.width / 2 + 10
 				icon.source: "qrc:/assets/pause.png"
 			}
 		},
 		State {
 			name: "Pause"
+			extend: "Start"
 			PropertyChanges { target: idTimer; running: false }
-			PropertyChanges { target: idStop; visible: true
-				anchors.horizontalCenterOffset: -(idStartPause.width + 20)
-			}
 			PropertyChanges { target: idStartPause
-				anchors.horizontalCenterOffset: idStartPause.width / 2 + 10
 				icon.source: "qrc:/assets/play.png"
 			}
 		}
