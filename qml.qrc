@@ -12,5 +12,9 @@
         <file>assets/done.png</file>
         <file>TimePage.qml</file>
         <file>ChronoPage.qml</file>
+        <file>assets/stop.png</file>
+        <file>assets/play.png</file>
+        <file>assets/pause.png</file>
+        <file>assets/plus.png</file>
     </qresource>
 </RCC>

@@ -62,13 +62,7 @@ ApplicationWindow {
 
 				TimePage {}
 
-				Label {
-					id: idThrdLbl
-					text: "Third page"
-					horizontalAlignment: Text.AlignHCenter
-					verticalAlignment: Text.AlignVCenter
-					font.pointSize: 30
-				}
+				ChronoPage {}
 			}
 
 			header: TabBar {

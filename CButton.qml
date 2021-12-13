@@ -7,6 +7,7 @@ import QtQuick.Shapes
 
 Item {
 	property alias contentItem: idBtn.contentItem
+	property alias icon: idBtn.icon
 
 	width: Math.max(idBtn.width, idShadow.width)
 	height: Math.max(idBtn.height, idShadow.height)
@@ -43,6 +44,7 @@ Item {
 			color: idBtn.Material.accent
 			radius: parent.width * 0.5
 		}
+		icon.width: width / 3; icon.height: height / 3
 
 		Ripple {
 			id: idRip

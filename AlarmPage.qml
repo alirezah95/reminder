@@ -25,15 +25,11 @@ ListView {
 		id: idAddNew
 		anchors {
 			bottom: parent.bottom
-			bottomMargin: 30
+			bottomMargin: width / 2.5
 			horizontalCenter: parent.horizontalCenter
 		}
-		contentItem: Text {
-			text: "+"
-			horizontalAlignment: Qt.AlignHCenter
-			verticalAlignment: Qt.AlignVCenter
-			color: "black"
-		}
+		icon.source: "qrc:/assets/plus.png"
+
 		onButtonReleased: {
 			idMainStack.push(idAlrmDlg);
 		}
