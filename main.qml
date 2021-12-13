@@ -2,8 +2,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.5
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
-import Qt5Compat.GraphicalEffects
-import QtQuick.Shapes
 
 ApplicationWindow {
 	id: idRoot
@@ -62,19 +60,8 @@ ApplicationWindow {
 					id: idAlPage
 				}
 
-				Label {
-					id: idSecLbl
-					text: "Second page"
-					color: "purple"
-					background: Rectangle {
-						anchors.fill: parent
-						color: "gray"
-					}
+				TimePage {}
 
-					horizontalAlignment: Text.AlignHCenter
-					verticalAlignment: Text.AlignVCenter
-					font.pointSize: 30
-				}
 				Label {
 					id: idThrdLbl
 					text: "Third page"
@@ -96,28 +83,6 @@ ApplicationWindow {
 				}
 				TabButton {
 					text: qsTr("Chrono")
-				}
-			}
-
-			Rectangle {
-				property var sourceItem: this
-				id: idShadow
-				width: idAddNew.width * 1.3; height: width
-				anchors.centerIn: idAddNew
-				anchors.verticalCenterOffset: 10
-				radius: idAddNew.radius
-				color: "transparent"
-				layer.enabled: true
-				layer.effect: ElevationEffect {
-					elevation: 15
-					source: idShadow
-				}
-			}
-
-			AddButton {
-				id: idAddNew
-				onReleased: {
-					idMainStack.push(idAlrmDlg);
 				}
 			}
 		}

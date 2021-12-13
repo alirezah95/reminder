@@ -10,5 +10,6 @@
         <file>ScrollBox.qml</file>
         <file>assets/close.png</file>
         <file>assets/done.png</file>
+        <file>TimePage.qml</file>
     </qresource>
 </RCC>
