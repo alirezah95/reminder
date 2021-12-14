@@ -5,53 +5,67 @@ import QtQuick.Controls.Material 2.3
 
 ItemDelegate {
 	property alias timeText: idTimeLbl.text
-	property alias dayText: idDayLbl.text
+	property alias repeatText: idRepeatLbl.text
 
 	id: idAlarm
 	width: idRoot.width
 	height: implicitContentHeight + implicitContentHeight * 0.2
 
-	hoverEnabled: true
+	hoverEnabled: false
 	leftPadding: 13; rightPadding: 5
-	leftInset: 8; rightInset: leftInset
 	focus: false
 
 	contentItem: RowLayout {
 		id: idLayout
+		anchors.fill: parent
+		anchors.rightMargin: parent.width / 30
+		anchors.leftMargin: parent.width / 30
 		ColumnLayout {
 			Layout.fillWidth: true
 			Layout.fillHeight: true
 			Label {
 				id: idTimeLbl
 				Layout.fillWidth: true
+				font.pointSize: 25
 			}
 			Label {
-				id: idDayLbl
+				id: idRepeatLbl
 				Layout.fillWidth: true
+				font.pointSize: 18
+				font.weight: Font.Light
 			}
 		}
 		Switch {
 			id: idSw
 
 			indicator: Rectangle {
-				id: idIndic
-				implicitWidth: 48
-				implicitHeight: 26
-				x: idSw.width - width - idSw.rightPadding
-				y: parent.height / 2 - height / 2
-				radius: 13
-				color: idSw.checked ? "#17a81a" : "transparent"
-				border.color: idSw.checked ? "#17a81a" : "#cccccc"
-
-				Rectangle {
 					readonly property int offset: 4
-					width: 16; height: width
-					x: idSw.checked ? parent.width - width - offset: 0 + offset
+					width: idIndic.implicitHeight / 2; height: width
+					x: idSw.checked ? idIndic.implicitWidth - width - offset
+									: 0 + offset
 					anchors.verticalCenter: idIndic.verticalCenter
-					radius: 10
-					color: idSw.down ? "#cccccc" : "#ffffff"
-					border.color: idSw.checked ? (idSw.down ? "#17a81a" : "#21be2b") : "#999999"
-				}
+					radius: width / 2.0
+					color:
+						idSw.checked ? Material.color(
+										   Material.Orange,
+										   idSw.down ? Material.Shade600
+													 : Material.Shade400)
+						  : Material.foreground
+					Behavior on x {
+						NumberAnimation { duration: 180 }
+					}
+			}
+			background: Rectangle {
+				id: idIndic
+				anchors.fill: idSw
+				implicitWidth: idRoot.width / 9
+				implicitHeight: idRoot.width / 18
+				radius: implicitWidth / 3
+				color: idSw.checked ? idSw.Material.accent
+									: idSw.Material.foreground
+				opacity: idSw.checked ? 0.9: 0.5
+				border.color: idSw.checked ? Material.color(Material.Grey)
+										   : Material.foreground
 			}
 		}
 	}

@@ -66,7 +66,7 @@ ApplicationWindow {
 				currentIndex: idHeader.currentIndex
 
 				AlarmPage {
-					id: idAlPage
+					id: idAlarmPage
 				}
 
 				TimePage {}
@@ -89,10 +89,5 @@ ApplicationWindow {
 				}
 			}
 		}
-	}
-
-	Component {
-		id: idAlrmDlg
-		NewAlarm {}
 	}
 }

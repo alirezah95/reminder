@@ -8,16 +8,17 @@ import QtQuick.Controls.Material.impl
 ListView {
 	property int indx: 0
 
-	function addNewAlarm() {
+	function addNewAlarm(tm, repeat) {
+		idModel.addNewItem(tm, repeat);
 	}
 
 	id: idAlarmList
 
 	spacing: 0
-	model: AlarmModel {}
+	model: AlarmModel { id: idModel }
 	highlightFollowsCurrentItem: true
 	delegate: AlarmDelegate {
-		timeText: index + ": " + time; dayText: day
+		timeText: time; repeatText: day
 	}
 
 
@@ -25,13 +26,18 @@ ListView {
 		id: idAddNew
 		anchors {
 			bottom: parent.bottom
-			bottomMargin: width / 2.5
+			bottomMargin: width / 4
 			horizontalCenter: parent.horizontalCenter
 		}
 		icon.source: "qrc:/assets/plus.png"
 
 		onButtonReleased: {
-			idMainStack.push(idAlrmDlg);
+			idMainStack.push(idNewAlarm);
 		}
+	}
+
+	Component {
+		id: idNewAlarm
+		NewAlarm {}
 	}
 }

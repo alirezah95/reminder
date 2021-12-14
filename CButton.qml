@@ -33,7 +33,7 @@ Item {
 		id: idBtn
 		readonly property alias radius: idBg.radius
 
-		width: Math.min(idRoot.width, idRoot.height) * 0.1; height: width
+		width: Math.min(idRoot.width, idRoot.height) * 0.16; height: width
 		anchors.centerIn: parent
 
 		onReleased: buttonReleased();

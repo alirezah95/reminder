@@ -116,7 +116,7 @@ Item {
 		id: idStartPause
 		anchors {
 			bottom: parent.bottom
-			bottomMargin: width / 2.5
+			bottomMargin: width / 4
 			horizontalCenter: parent.horizontalCenter
 		}
 		icon.source: "qrc:/assets/play.png"
@@ -187,6 +187,9 @@ Item {
 		Transition {
 			from: "*"; to: "Idle"
 			PropertyAnimation { target: idStop; property: "visible"
+				duration: 200
+			}
+			PropertyAnimation { target: idLap; property: "visible"
 				duration: 200
 			}
 		}

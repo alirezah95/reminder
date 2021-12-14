@@ -22,7 +22,9 @@ Item {
 				background: Rectangle { color: "transparent" }
 				display: Button.IconOnly
 				icon.source: "qrc:/assets/close.png"
-				onPressed: print(width, ", ", height);
+				onReleased: {
+					idMainStack.pop();
+				}
 			}
 
 			ColumnLayout {
@@ -56,7 +58,15 @@ Item {
 				display: Button.IconOnly
 				icon.source: "qrc:/assets/done.png"
 				icon.color: Material.accent
-				onPressed: print(width, ", ", height);
+				onReleased: {
+					idAlarmPage.addNewAlarm(
+								(idHour.currentIndex() < 10 ? "0" : "")
+								+ idHour.currentIndex()
+								+ (idMinute.currentIndex() < 10 ? ":0" : ":")
+								+ idMinute.currentIndex(),
+								"Once")
+					idMainStack.pop();
+				}
 			}
 		}
 
