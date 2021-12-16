@@ -1,13 +1,19 @@
-import QtQuick 2.0
+import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import alarmtime
 
 Item {
+	TextMetrics {
+		id: idTxM
+		font.family: idFont.name
+		font.pointSize: 40
+		text: "00"
+	}
+
 	ColumnLayout {
 		id: idGrid
 		anchors.fill: parent
-		spacing: 50
 
 		RowLayout {
 			Layout.fillWidth: true
@@ -18,7 +24,6 @@ Item {
 			Layout.alignment: Qt.AlignTop
 
 			Button {
-				Layout.fillHeight: true
 				background: Rectangle { color: "transparent" }
 				display: Button.IconOnly
 				icon.source: "qrc:/assets/close.png"
@@ -28,9 +33,6 @@ Item {
 			}
 
 			ColumnLayout {
-				Layout.fillWidth: true
-				Layout.fillHeight: true
-
 				Label {
 					Layout.fillWidth: true
 					font.pointSize: 20
@@ -47,13 +49,13 @@ Item {
 					opacity: 0.6
 					horizontalAlignment: Text.AlignHCenter
 					verticalAlignment: Text.AlignVCenter
-					text: AlarmTime.getTimeDiff(idHour.currentIndex(),
-												idMinute.currentIndex());
+					text: AlarmTime.getTimeDiff(idHour.currentIndex,
+												idMinute.currentIndex);
 				}
 			}
 
 			Button {
-				Layout.fillHeight: true
+				Layout.fillHeight: false
 				background: Rectangle { color: "transparent" }
 				display: Button.IconOnly
 				icon.source: "qrc:/assets/done.png"
@@ -71,23 +73,32 @@ Item {
 		}
 
 		RowLayout {
-			Layout.fillHeight: true
-			Layout.alignment: Qt.AlignHCenter
-			spacing: idHour.viewWidth / 2.0
+			Layout.fillHeight: false
+			Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+			spacing: idHour.width
 
-			ScrollBox {
+			Tumbler {
 				id: idHour
-				Layout.fillHeight: true
-				Layout.preferredWidth: viewWidth
-				pointSize: 40
-				from: 0; to: 24
+				Layout.preferredWidth: idTxM.width
+				Layout.preferredHeight: idTxM.height * 6
+				model: 24
+				delegate: Text {
+						text: index
+						font.pointSize: 40
+						opacity: 1.0 - Math.abs(Tumbler.displacement * 1.1) / (Tumbler.tumbler.visibleItemCount / 2)
+				}
 			}
-			ScrollBox {
+
+			Tumbler {
 				id: idMinute
-				Layout.fillHeight: true
-				Layout.preferredWidth: viewWidth
-				pointSize: 40
-				from: 0; to: 60
+				Layout.preferredWidth: idTxM.width
+				Layout.preferredHeight: idTxM.height * 6
+				model: 60
+				delegate: Text {
+						text: index
+						font.pointSize: 40
+						opacity: 1.0 - Math.abs(Tumbler.displacement * 1.1) / (Tumbler.tumbler.visibleItemCount / 2)
+				}
 			}
 		}
 	}
