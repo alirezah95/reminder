@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QFontDatabase>
 
-#include "alarmtime.hpp"
+#include "alarm/alarmtime.hpp"
 
 
 int main(int argc, char *argv[])

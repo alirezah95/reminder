@@ -2,24 +2,26 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>AlarmPage.qml</file>
-        <file>AlarmDelegate.qml</file>
-        <file>AlarmModel.qml</file>
         <file>CButton.qml</file>
-        <file>NewAlarm.qml</file>
         <file>ScrollBox.qml</file>
         <file>assets/close.png</file>
         <file>assets/done.png</file>
-        <file>TimePage.qml</file>
-        <file>ChronoPage.qml</file>
         <file>assets/stop.png</file>
         <file>assets/play.png</file>
         <file>assets/pause.png</file>
         <file>assets/plus.png</file>
-        <file>chrono.js</file>
         <file>assets/DejaVuSans.ttf</file>
-        <file>ChronoList.qml</file>
         <file>assets/flag.png</file>
         <file>assets/DejaVuSansMono.ttf</file>
+        <file>time/TimePage.qml</file>
+        <file>chrono/ChronoList.qml</file>
+        <file>chrono/ChronoPage.qml</file>
+        <file>chrono/chrono.js</file>
+        <file>alarm/AlarmPage.qml</file>
+        <file>alarm/AlarmDelegate.qml</file>
+        <file>alarm/NewAlarm.qml</file>
+        <file>alarm/alarmtime.cpp</file>
+        <file>alarm/AlarmModel.qml</file>
+        <file>alarm/alarmtime.hpp</file>
     </qresource>
 </RCC>

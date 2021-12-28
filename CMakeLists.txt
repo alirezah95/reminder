@@ -16,7 +16,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
-		alarmtime.hpp alarmtime.cpp
+		alarm/alarmtime.hpp alarm/alarmtime.cpp
         qml.qrc
 )
 

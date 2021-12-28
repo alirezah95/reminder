@@ -1,9 +1,10 @@
-import QtQuick 2.0
+import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import QtQuick.Shapes
 import QtQuick.Controls.Material.impl
+import '..'
 
 ListView {
 	property int indx: 0
@@ -24,6 +25,7 @@ ListView {
 
 	CButton {
 		id: idAddNew
+		Material.background: Material.Orange
 		anchors {
 			bottom: parent.bottom
 			bottomMargin: width / 4

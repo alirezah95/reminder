@@ -1,11 +1,12 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
 import Qt5Compat.GraphicalEffects
 import QtQuick.Shapes
 
 Item {
+	SystemPalette { id: idPalette; colorGroup: SystemPalette.Active }
 	property alias contentItem: idBtn.contentItem
 	property alias icon: idBtn.icon
 
@@ -41,7 +42,7 @@ Item {
 		background: Rectangle {
 			id: idBg
 			anchors.fill: parent
-			color: idBtn.Material.accent
+			color: Material.background
 			radius: parent.width * 0.5
 		}
 		icon.width: width / 3; icon.height: height / 3
@@ -52,7 +53,7 @@ Item {
 			anchor: idBg
 			active: idBtn.hovered && !idBtn.pressed
 			pressed: idBtn.pressed
-			color: Material.color(Material.Purple, Material.Shade400)
+			color: Material.shade(Material.background, Material.Shade400)
 			layer.enabled: true
 			layer.effect: OpacityMask {
 				maskSource: Rectangle {

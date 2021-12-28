@@ -62,10 +62,10 @@ Item {
 				icon.color: Material.accent
 				onReleased: {
 					idAlarmPage.addNewAlarm(
-								(idHour.currentIndex() < 10 ? "0" : "")
-								+ idHour.currentIndex()
-								+ (idMinute.currentIndex() < 10 ? ":0" : ":")
-								+ idMinute.currentIndex(),
+								(idHour.currentIndex < 10 ? "0" : "")
+								+ idHour.currentIndex
+								+ (idMinute.currentIndex < 10 ? ":0" : ":")
+								+ idMinute.currentIndex,
 								"Once")
 					idMainStack.pop();
 				}
@@ -79,25 +79,33 @@ Item {
 
 			Tumbler {
 				id: idHour
-				Layout.preferredWidth: idTxM.width
+				Layout.preferredWidth: idTxM.width * 1.25
 				Layout.preferredHeight: idTxM.height * 6
 				model: 24
 				delegate: Text {
-						text: index
-						font.pointSize: 40
-						opacity: 1.0 - Math.abs(Tumbler.displacement * 1.1) / (Tumbler.tumbler.visibleItemCount / 2)
+					width: idHour.width
+					text: index
+					horizontalAlignment: Qt.AlignHCenter
+					font.pointSize: 40
+					font.bold: opacity > 0.95
+					opacity: 1.0 - Math.abs(Tumbler.displacement * 1.1)
+							 / (Tumbler.tumbler.visibleItemCount / 2)
 				}
 			}
 
 			Tumbler {
 				id: idMinute
-				Layout.preferredWidth: idTxM.width
+				Layout.preferredWidth: idTxM.width * 1.25
 				Layout.preferredHeight: idTxM.height * 6
 				model: 60
 				delegate: Text {
-						text: index
-						font.pointSize: 40
-						opacity: 1.0 - Math.abs(Tumbler.displacement * 1.1) / (Tumbler.tumbler.visibleItemCount / 2)
+					width: idHour.width
+					text: index
+					horizontalAlignment: Qt.AlignHCenter
+					font.pointSize: 40
+					font.bold: opacity > 0.9
+					opacity: 1.0 - Math.abs(Tumbler.displacement * 1.1)
+							 / (Tumbler.tumbler.visibleItemCount / 2)
 				}
 			}
 		}

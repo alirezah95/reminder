@@ -2,6 +2,9 @@ import QtQuick
 import QtQuick.Controls 2.5
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
+import 'alarm'
+import 'time'
+import 'chrono'
 
 ApplicationWindow {
 	id: idRoot

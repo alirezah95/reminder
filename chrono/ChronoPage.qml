@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import 'chrono.js' as Chrono
+import '..'
 
 Item {
 	property int fontPSize: 40
