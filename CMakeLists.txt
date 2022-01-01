@@ -11,12 +11,28 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Sql REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Sql REQUIRED)
+
+if (ANDROID)
+	set(STATUSBAR_PLATFORM_SOURCES
+		qtstatusbar/src/statusbar.h qtstatusbar/src/statusbar.cpp
+		qtstatusbar/src/statusbar_android.cpp)
+elseif (CMAKE_SYSTEM_NAME STREQUAL iOS)
+	set(STATUSBAR_PLATFORM_SOURCES
+		qtstatusbar/src/statusbar.h qtstatusbar/src/statusbar.cpp
+		qtstatusbar/src/statusbar_ios.cpp)
+else()
+	set(STATUSBAR_PLATFORM_SOURCES
+		qtstatusbar/src/statusbar.h qtstatusbar/src/statusbar.cpp
+		qtstatusbar/src/statusbar_dummy.cpp)
+endif()
 
 set(PROJECT_SOURCES
         main.cpp
 		alarm/alarmtime.hpp alarm/alarmtime.cpp
+		alarm/sqlalarmmodel.hpp alarm/sqlalarmmodel.cpp
+		${STATUSBAR_PLATFORM_SOURCES}
         qml.qrc
 )
 
@@ -46,7 +62,8 @@ endif()
 target_compile_definitions(reminder
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(reminder
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+	PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
+	Qt${QT_VERSION_MAJOR}::Sql)
 
 set_target_properties(reminder PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

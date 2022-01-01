@@ -1,8 +1,11 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QFontDatabase>
+#include <QtCore>
 
 #include "alarm/alarmtime.hpp"
+#include "qtstatusbar/src/statusbar.h"
+#include "alarm/sqlalarmmodel.hpp"
 
 
 int main(int argc, char *argv[])
@@ -13,9 +16,30 @@ int main(int argc, char *argv[])
 
 	QGuiApplication app(argc, argv);
 
-	QScopedPointer at(new AlarmTime);
-	qmlRegisterSingletonInstance<AlarmTime>("alarmtime", 0, 1, "AlarmTime",
-											&*at);
+	/*
+	 * Initializing default sqlite database.
+	 */
+	auto db = QSqlDatabase::addDatabase("QSQLITE");
+	QDir dbPath(QStandardPaths::writableLocation(
+				QStandardPaths::AppLocalDataLocation));
+	if (!dbPath.exists()) {
+		if (dbPath.mkdir(dbPath.absolutePath()) == false) {
+			qDebug() << "setting database to memory";
+			db.setDatabaseName(":memory:");
+		} else {
+			db.setDatabaseName(dbPath.absolutePath() + "/appdb.db");
+		}
+	} else {
+		db.setDatabaseName(dbPath.absolutePath() + "/appdb.db");
+	}
+
+	SqlAlarmModel model;
+	AlarmTime at;
+
+	qmlRegisterSingletonInstance("reminder", 0, 1, "SqlAlarmModel", &model);
+	qmlRegisterType<StatusBar>("reminder", 0, 1, "StatusBar");
+	qmlRegisterSingletonInstance<AlarmTime>("reminder", 0, 1, "AlarmTime",
+											&at);
 
 	QQmlApplicationEngine engine;
 	const QUrl url(QStringLiteral("qrc:/main.qml"));

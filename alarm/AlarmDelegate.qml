@@ -4,9 +4,6 @@ import QtQuick.Controls
 import QtQuick.Controls.Material 2.3
 
 ItemDelegate {
-	property alias timeText: idTimeLbl.text
-	property alias repeatText: idRepeatLbl.text
-
 	id: idAlarm
 	width: idRoot.width
 	height: implicitContentHeight + implicitContentHeight * 0.2
@@ -27,12 +24,14 @@ ItemDelegate {
 				id: idTimeLbl
 				Layout.fillWidth: true
 				font.pointSize: 25
+				text: model.time
 			}
 			Label {
 				id: idRepeatLbl
 				Layout.fillWidth: true
 				font.pointSize: 18
 				font.weight: Font.Light
+				text: model.repeat
 			}
 		}
 		Switch {
@@ -46,11 +45,8 @@ ItemDelegate {
 					anchors.verticalCenter: idIndic.verticalCenter
 					radius: width / 2.0
 					color:
-						idSw.checked ? Material.color(
-										   Material.Orange,
-										   idSw.down ? Material.Shade600
-													 : Material.Shade400)
-						  : Material.foreground
+						idSw.checked ? Material.background:
+									   Qt.alpha(Material.background, 0.5)
 					Behavior on x {
 						NumberAnimation { duration: 180 }
 					}
@@ -61,11 +57,14 @@ ItemDelegate {
 				implicitWidth: idRoot.width / 9
 				implicitHeight: idRoot.width / 18
 				radius: implicitWidth / 3
-				color: idSw.checked ? idSw.Material.accent
-									: idSw.Material.foreground
-				opacity: idSw.checked ? 0.9: 0.5
-				border.color: idSw.checked ? Material.color(Material.Grey)
-										   : Material.foreground
+				color: idSw.checked ? Material.accent
+									: Material.foreground
+				opacity: idSw.checked ? 1: 0.5
+			}
+
+			Component.onCompleted: {
+				if (model.active)
+					idSw.toggle();
 			}
 		}
 	}

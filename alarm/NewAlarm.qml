@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import alarmtime
+import reminder
 
 Item {
 	TextMetrics {
@@ -61,12 +61,20 @@ Item {
 				icon.source: "qrc:/assets/done.png"
 				icon.color: Material.accent
 				onReleased: {
-					idAlarmPage.addNewAlarm(
+					SqlAlarmModel.insert(
 								(idHour.currentIndex < 10 ? "0" : "")
 								+ idHour.currentIndex
 								+ (idMinute.currentIndex < 10 ? ":0" : ":")
 								+ idMinute.currentIndex,
-								"Once")
+								"Once",
+								true
+								)
+//					idAlarmPage.addNewAlarm(
+//								(idHour.currentIndex < 10 ? "0" : "")
+//								+ idHour.currentIndex
+//								+ (idMinute.currentIndex < 10 ? ":0" : ":")
+//								+ idMinute.currentIndex,
+//								"Once")
 					idMainStack.pop();
 				}
 			}
@@ -82,7 +90,7 @@ Item {
 				Layout.preferredWidth: idTxM.width * 1.25
 				Layout.preferredHeight: idTxM.height * 6
 				model: 24
-				delegate: Text {
+				delegate: Label {
 					width: idHour.width
 					text: index
 					horizontalAlignment: Qt.AlignHCenter
@@ -98,7 +106,7 @@ Item {
 				Layout.preferredWidth: idTxM.width * 1.25
 				Layout.preferredHeight: idTxM.height * 6
 				model: 60
-				delegate: Text {
+				delegate: Label {
 					width: idHour.width
 					text: index
 					horizontalAlignment: Qt.AlignHCenter

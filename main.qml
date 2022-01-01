@@ -2,22 +2,29 @@ import QtQuick
 import QtQuick.Controls 2.5
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
+import reminder
 import 'alarm'
 import 'time'
 import 'chrono'
 
 ApplicationWindow {
 	id: idRoot
-	width: (Qt.platform.os in ["android", "ios"]) ? Screen.width: 540
-	height: (Qt.platform.os in ["android", "ios"]) ? Screen.height: 960
+	width: (Qt.platform.os === "android" || Qt.platform.os === "ios")
+		   ? Screen.desktopAvailableWidth : 540
+	height: (Qt.platform.os === "android" || Qt.platform.os === "ios")
+			? Screen.desktopAvailableHeight : 960
 	visible: true
-	title: qsTr("Scroll")
+	title: qsTr("Reminder")
 
-	Material.accent: Material.Purple
+	Material.accent: Material.Blue
 	Material.background: Material.color(Material.Grey,
 										Material.theme === Material.Dark
 										? Material.Shade900:
 										  Material.Shade50);
+
+	StatusBar {
+		color: Qt.darker(Material.primary, 1.2)
+	}
 
 	onClosing: function(close) {
 		close.accepted = true;
@@ -77,7 +84,7 @@ ApplicationWindow {
 				ChronoPage {}
 			}
 
-			header: TabBar {
+			footer: TabBar {
 				id: idHeader
 				currentIndex: idMainSwipe.currentIndex
 
