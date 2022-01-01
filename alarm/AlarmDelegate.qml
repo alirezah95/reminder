@@ -66,6 +66,9 @@ ItemDelegate {
 				if (model.active)
 					idSw.toggle();
 			}
+			onToggled: {
+				model.active = checked;
+			}
 		}
 	}
 }

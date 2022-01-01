@@ -44,7 +44,6 @@ QHash<int, QByteArray> SqlAlarmModel::roleNames() const
 
 QVariant SqlAlarmModel::data(const QModelIndex &index, int role) const
 {
-	qDebug() << "data for: " << index.row() << "  " << role;
 	if (!index.isValid() || index.row() > rowCount())
 		return QVariant();
 
@@ -65,6 +64,28 @@ int SqlAlarmModel::rowCount(const QModelIndex &parent) const
 	if (parent.isValid())
 		return 0;
 	return mSql.rowCount();
+}
+
+Qt::ItemFlags SqlAlarmModel::flags(const QModelIndex& index) const
+{
+	if (!index.isValid())
+		return Qt::NoItemFlags;
+	return Qt::ItemIsEditable;
+}
+
+bool SqlAlarmModel::setData(const QModelIndex& index, const QVariant& value,
+							int role)
+{
+	if (!index.isValid())
+		return false;
+	qDebug() << role - Qt::UserRole - 1;
+	auto res = mSql.setData(mSql.index(index.row(), role - Qt::UserRole - 1),
+							value);
+	if (!res) {
+		return false;
+	}
+	mSql.submit();
+	return true;
 }
 
 bool SqlAlarmModel::insert(QString time, QString repeat, bool active)
@@ -97,8 +118,3 @@ bool SqlAlarmModel::remove(int row)
 		return false;
 	}
 }
-
-//bool SqlAlarmModel::removeAlarm(QString time, QString repeat, bool active)
-//{
-
-//}

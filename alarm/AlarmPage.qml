@@ -17,7 +17,6 @@ ListView {
 	id: idAlarmList
 
 	spacing: 0
-//	model: AlarmModel { id: idModel }
 	model: SqlAlarmModel
 	highlightFollowsCurrentItem: true
 	delegate: AlarmDelegate {}
