@@ -6,28 +6,20 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Shapes
 
 Item {
-	SystemPalette { id: idPalette; colorGroup: SystemPalette.Active }
 	property alias contentItem: idBtn.contentItem
 	property alias icon: idBtn.icon
 
-	width: Math.max(idBtn.width, idShadow.width)
-	height: Math.max(idBtn.height, idShadow.height)
+	width: Math.max(idBtn.width, 0)
+	height: Math.max(idBtn.height, 0)
 
 	signal buttonReleased
 
-	Rectangle {
-		property var sourceItem: this
-		id: idShadow
-		width: idBtn.width * 1.3; height: width
-		anchors.centerIn: parent
-		anchors.verticalCenterOffset: 10
-		radius: idBtn.radius
-		color: "transparent"
-		layer.enabled: true
-		layer.effect: ElevationEffect {
-			elevation: 15
-			source: idShadow
-		}
+	RectangularGlow {
+		anchors.fill: idBtn
+		glowRadius: 10
+		spread: 0.1
+		color: Material.color(Material.Grey)
+		cornerRadius: idBg.radius + glowRadius
 	}
 
 	Button {
@@ -40,6 +32,7 @@ Item {
 		onReleased: buttonReleased();
 
 		background: Rectangle {
+			property Rectangle sourceItem: this
 			id: idBg
 			anchors.fill: parent
 			color: Material.background
@@ -53,7 +46,7 @@ Item {
 			anchor: idBg
 			active: idBtn.hovered && !idBtn.pressed
 			pressed: idBtn.pressed
-			color: Material.shade(Material.background, Material.Shade400)
+			color: Material.shade(Material.background, Material.Shade300)
 			layer.enabled: true
 			layer.effect: OpacityMask {
 				maskSource: Rectangle {
