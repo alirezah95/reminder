@@ -17,8 +17,9 @@ ListView {
 	id: idAlarmList
 
 	spacing: 0
-	model: SqlAlarmModel
+	model: AlarmModel
 	highlightFollowsCurrentItem: true
+
 	delegate: AlarmDelegate {}
 
 	CButton {

@@ -32,6 +32,7 @@ set(PROJECT_SOURCES
         main.cpp
 		alarm/alarmtime.hpp alarm/alarmtime.cpp
 		alarm/sqlalarmmodel.hpp alarm/sqlalarmmodel.cpp
+		alarm/alarmproxymodel.hpp alarm/alarmproxymodel.cpp
 		${STATUSBAR_PLATFORM_SOURCES}
         qml.qrc
 )

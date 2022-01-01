@@ -117,7 +117,7 @@ Item {
 				icon.color: Material.accent
 				icon.width: 50; icon.height: 50
 				onReleased: {
-					SqlAlarmModel.insert(
+					AlarmModel.insert(
 								(idHour.currentIndex < 10 ? "0" : "")
 								+ idHour.currentIndex
 								+ (idMinute.currentIndex < 10 ? ":0" : ":")

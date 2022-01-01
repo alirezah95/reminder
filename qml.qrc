@@ -21,7 +21,6 @@
         <file>alarm/AlarmDelegate.qml</file>
         <file>alarm/NewAlarm.qml</file>
         <file>alarm/alarmtime.cpp</file>
-        <file>alarm/AlarmModel.qml</file>
         <file>alarm/alarmtime.hpp</file>
     </qresource>
 </RCC>

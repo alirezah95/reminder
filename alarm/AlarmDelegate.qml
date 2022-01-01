@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.3
 
 ItemDelegate {
 	id: idAlarm
-	width: idRoot.width
+	width: ListView.view.width
 	height: implicitContentHeight + implicitContentHeight * 0.2
 
 	hoverEnabled: false
@@ -15,8 +15,9 @@ ItemDelegate {
 	contentItem: RowLayout {
 		id: idLayout
 		anchors.fill: parent
-		anchors.rightMargin: parent.width / 30
-		anchors.leftMargin: parent.width / 30
+		anchors.rightMargin: 10
+		anchors.leftMargin: 10
+
 		ColumnLayout {
 			Layout.fillWidth: true
 			Layout.fillHeight: true

@@ -28,7 +28,7 @@ public:
 	Q_INVOKABLE bool remove(int row);
 
 private:
-	QSqlTableModel	mSql;
+	QSqlTableModel			mSql;
 };
 
 #endif // SQLALARMMODEL_HPP

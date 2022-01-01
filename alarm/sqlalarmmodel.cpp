@@ -118,3 +118,8 @@ bool SqlAlarmModel::remove(int row)
 		return false;
 	}
 }
+
+//bool SqlAlarmModel::removeAlarm(QString time, QString repeat, bool active)
+//{
+
+//}

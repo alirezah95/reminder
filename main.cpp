@@ -1,11 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QFontDatabase>
+#include <QtSql>
 #include <QtCore>
 
 #include "alarm/alarmtime.hpp"
 #include "qtstatusbar/src/statusbar.h"
-#include "alarm/sqlalarmmodel.hpp"
+#include "alarm/alarmproxymodel.hpp"
 
 
 int main(int argc, char *argv[])
@@ -33,10 +34,10 @@ int main(int argc, char *argv[])
 		db.setDatabaseName(dbPath.absolutePath() + "/appdb.db");
 	}
 
-	SqlAlarmModel model;
 	AlarmTime at;
+	AlarmProxyModel alarmModel;
 
-	qmlRegisterSingletonInstance("reminder", 0, 1, "SqlAlarmModel", &model);
+	qmlRegisterSingletonInstance("reminder", 0, 1, "AlarmModel", &alarmModel);
 	qmlRegisterType<StatusBar>("reminder", 0, 1, "StatusBar");
 	qmlRegisterSingletonInstance<AlarmTime>("reminder", 0, 1, "AlarmTime",
 											&at);
