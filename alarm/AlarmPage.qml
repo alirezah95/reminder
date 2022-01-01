@@ -24,7 +24,7 @@ ListView {
 
 	CButton {
 		id: idAddNew
-		Material.background: Material.Orange
+
 		anchors {
 			bottom: parent.bottom
 			bottomMargin: width / 6
@@ -32,6 +32,7 @@ ListView {
 			rightMargin: width / 4
 		}
 		icon.source: "qrc:/assets/plus.png"
+		icon.color: Material.background
 
 		onButtonReleased: {
 			idMainStack.push(idNewAlarm);

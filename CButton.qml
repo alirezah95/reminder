@@ -16,9 +16,9 @@ Item {
 
 	RectangularGlow {
 		anchors.fill: idBtn
-		glowRadius: 10
+		glowRadius: 8
 		spread: 0.1
-		color: Material.color(Material.Grey)
+		color: Qt.alpha(Material.color(Material.Grey), 0.6)
 		cornerRadius: idBg.radius + glowRadius
 	}
 
@@ -32,12 +32,12 @@ Item {
 		onReleased: buttonReleased();
 
 		background: Rectangle {
-			property Rectangle sourceItem: this
 			id: idBg
 			anchors.fill: parent
-			color: Material.background
+			color: Material.accent
 			radius: parent.width * 0.5
 		}
+
 		icon.width: width / 3; icon.height: height / 3
 
 		Ripple {
@@ -46,7 +46,7 @@ Item {
 			anchor: idBg
 			active: idBtn.hovered && !idBtn.pressed
 			pressed: idBtn.pressed
-			color: Material.shade(Material.background, Material.Shade300)
+			color: Qt.darker(Material.accent, 1.15)
 			layer.enabled: true
 			layer.effect: OpacityMask {
 				maskSource: Rectangle {
