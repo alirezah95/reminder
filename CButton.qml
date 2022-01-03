@@ -9,16 +9,19 @@ Item {
 	property alias contentItem: idBtn.contentItem
 	property alias icon: idBtn.icon
 
-	width: Math.max(idBtn.width, 0)
-	height: Math.max(idBtn.height, 0)
+	width: 48
+	height: 48
 
 	signal buttonReleased
 
 	RectangularGlow {
-		anchors.fill: idBtn
+		width: idBtn.width
+		height: idBtn.height
+		anchors.centerIn: idBtn
+		anchors.verticalCenterOffset: 4
 		glowRadius: 8
-		spread: 0.1
-		color: Qt.alpha(Material.color(Material.Grey), 0.6)
+		spread: idBtn.pressed ? 0.4: 0.1
+		color: Qt.alpha(Material.color(Material.Grey), 0.9)
 		cornerRadius: idBg.radius + glowRadius
 	}
 
@@ -26,8 +29,8 @@ Item {
 		id: idBtn
 		readonly property alias radius: idBg.radius
 
-		width: Math.min(idRoot.width, idRoot.height) / 8; height: width
-		anchors.centerIn: parent
+		implicitWidth: parent.width
+		implicitHeight: parent.height
 
 		onReleased: buttonReleased();
 

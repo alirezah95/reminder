@@ -6,42 +6,44 @@ import QtQuick.Controls.Material 2.3
 ItemDelegate {
 	id: idAlarm
 	width: ListView.view.width
-	height: implicitContentHeight + implicitContentHeight * 0.2
+	height: 72
 
 	hoverEnabled: false
-	leftPadding: 13; rightPadding: 5
+	leftPadding: 16; rightPadding: 16
 	focus: false
+
+	background: Rectangle {
+		color: "teal"
+	}
 
 	contentItem: RowLayout {
 		id: idLayout
-		anchors.fill: parent
-		anchors.rightMargin: 10
-		anchors.leftMargin: 10
 
 		ColumnLayout {
-			Layout.fillWidth: true
-			Layout.fillHeight: true
+			spacing: 8
 			Label {
 				id: idTimeLbl
 				Layout.fillWidth: true
-				font.pointSize: 25
+				font.pointSize: 18
 				text: model.time
 			}
 			Label {
 				id: idRepeatLbl
 				Layout.fillWidth: true
-				font.pointSize: 18
+				font.pointSize: 13
 				font.weight: Font.Light
 				text: model.repeat
 			}
 		}
 		Switch {
 			id: idSw
+			Layout.preferredWidth: 50
+			Layout.preferredHeight: 26
 
 			indicator: Rectangle {
 					readonly property int offset: 4
-					width: idIndic.implicitHeight / 2; height: width
-					x: idSw.checked ? idIndic.implicitWidth - width - offset
+					width: idSw.height / 2.5; height: width
+					x: idSw.checked ? idSw.width - width - offset
 									: 0 + offset
 					anchors.verticalCenter: idIndic.verticalCenter
 					radius: width / 2.0
@@ -54,10 +56,8 @@ ItemDelegate {
 			}
 			background: Rectangle {
 				id: idIndic
-				anchors.fill: idSw
-				implicitWidth: idRoot.width / 9
-				implicitHeight: idRoot.width / 18
-				radius: implicitWidth / 3
+
+				radius: height / 2
 				color: idSw.checked ? Material.accent
 									: Material.foreground
 				opacity: idSw.checked ? 1: 0.5

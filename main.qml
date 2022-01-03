@@ -10,9 +10,9 @@ import 'chrono'
 ApplicationWindow {
 	id: idRoot
 	width: (Qt.platform.os === "android" || Qt.platform.os === "ios")
-		   ? Screen.desktopAvailableWidth : 540
+		   ? Screen.desktopAvailableWidth : 393
 	height: (Qt.platform.os === "android" || Qt.platform.os === "ios")
-			? Screen.desktopAvailableHeight : 960
+			? Screen.desktopAvailableHeight : 823
 	visible: true
 	title: qsTr("Reminder")
 
@@ -86,6 +86,7 @@ ApplicationWindow {
 
 			footer: TabBar {
 				id: idHeader
+				implicitHeight: 48
 				currentIndex: idMainSwipe.currentIndex
 
 				TabButton {

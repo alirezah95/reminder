@@ -92,11 +92,10 @@ Item {
 					color: "transparent"
 					border.width: 2
 					border.color: Qt.alpha(Material.foreground, 0.6)
-					radius: width / 2
+					radius: width / 2.2
 				}
 				display: Button.IconOnly
 				icon.source: "qrc:/assets/close.png"
-				icon.width: 50; icon.height: 50
 				onReleased: {
 					idMainStack.pop();
 				}
@@ -110,12 +109,11 @@ Item {
 					color: "transparent"
 					border.width: 2
 					border.color: Qt.alpha(Material.foreground, 0.6)
-					radius: width / 2
+					radius: width / 2.2
 				}
 				display: Button.IconOnly
 				icon.source: "qrc:/assets/done.png"
 				icon.color: Material.accent
-				icon.width: 50; icon.height: 50
 				onReleased: {
 					AlarmModel.insert(
 								(idHour.currentIndex < 10 ? "0" : "")

@@ -3,6 +3,8 @@
 #include <QFontDatabase>
 #include <QtSql>
 #include <QtCore>
+#include <QScreen>
+#include <QQmlContext>
 
 #include "alarm/alarmtime.hpp"
 #include "qtstatusbar/src/statusbar.h"
@@ -49,6 +51,7 @@ int main(int argc, char *argv[])
 		if (!obj && url == objUrl)
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
+
 	engine.load(url);
 
 	auto id = QFontDatabase::addApplicationFont(":/assets/DejaVuSans.ttf");

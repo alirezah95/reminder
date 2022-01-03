@@ -16,7 +16,7 @@ ListView {
 
 	id: idAlarmList
 
-	spacing: 0
+	spacing: 8
 	model: AlarmModel
 	highlightFollowsCurrentItem: true
 
@@ -24,12 +24,14 @@ ListView {
 
 	CButton {
 		id: idAddNew
+		width: 56
+		height: 56
 
 		anchors {
 			bottom: parent.bottom
-			bottomMargin: width / 6
+			bottomMargin: 16
 			right: parent.right
-			rightMargin: width / 4
+			rightMargin: 16
 		}
 		icon.source: "qrc:/assets/plus.png"
 		icon.color: Material.background
