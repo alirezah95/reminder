@@ -63,27 +63,27 @@ Item {
 	}
 
 	ChronoList {
-		property double topM: idRoot.height / 12
-		property double leftM: idRoot.width / 15
-
 		id: idChList
+
+		boundsBehavior: Flickable.StopAtBounds
 		anchors {
 			top: idTimeRow.bottom
-			topMargin: topM
+			topMargin: 64
 			bottom: idStop.top
-			bottomMargin: topM
+			bottomMargin: 64
 			left: parent.left
-			leftMargin: leftM
+			leftMargin: 48
 			right: parent.right
-			rightMargin: leftM
+			rightMargin: 48
 		}
 	}
 
 	CButton {
 		id: idStop
 		anchors.centerIn: idStartPause
-		button.icon.source: "qrc:/assets/stop.png"
 		visible: false
+		button.highlighted: true
+		button.icon.source: "qrc:/assets/stop.png"
 
 		Behavior on anchors.horizontalCenterOffset {
 			NumberAnimation { duration: 200 }
@@ -98,6 +98,8 @@ Item {
 	CButton {
 		id: idLap
 		anchors.centerIn: idStartPause
+
+		button.highlighted: true
 		button.icon.source: "qrc:/assets/flag.png"
 		visible: false
 
@@ -120,6 +122,8 @@ Item {
 			bottomMargin: width / 4
 			horizontalCenter: parent.horizontalCenter
 		}
+
+		button.highlighted: true
 		button.icon.source: "qrc:/assets/play.png"
 
 		button.onReleased: {
@@ -179,7 +183,7 @@ Item {
 			extend: "Start"
 			PropertyChanges { target: idTimer; running: false }
 			PropertyChanges { target: idStartPause
-				icon.source: "qrc:/assets/play.png"
+				button.icon.source: "qrc:/assets/play.png"
 			}
 		}
 	]

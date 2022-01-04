@@ -21,11 +21,13 @@ ListView {
 
 	clip: true
 	model: idModel
+
 	delegate: Label {
-		width: idView.width;
+		width: idView.width - 8
+		x: 4
 		text: model.recTxt
-		font.family: idMonoFont.name
-		font.pointSize: idChrn.fontPSize * 0.5
+		font.family: "DejaVu Sans Mono"
+		font.pixelSize: idChrn.fontPSize * 0.5
 	}
 	header: Rectangle {
 		color: Material.accent

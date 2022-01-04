@@ -9,6 +9,8 @@ Control {
 	id: idControl
 	property alias button: idBtn
 
+	Material.elevation: 6
+
 	width: 56
 	height: 56
 

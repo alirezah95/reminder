@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 
+	QFontDatabase::addApplicationFont(":/assets/DejaVuSansMono.ttf");
 	auto fontId = QFontDatabase::addApplicationFont(
 				":/assets/DejaVuSans.ttf");
 	auto font = QFont();
@@ -60,6 +61,8 @@ int main(int argc, char *argv[])
 	app.setFont(font);
 
 	engine.load(url);
+
+	qDebug() << QFontDatabase::families();
 
 	return app.exec();
 }

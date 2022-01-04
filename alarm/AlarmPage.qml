@@ -42,7 +42,6 @@ ListView {
 		}
 		button.highlighted: true
 		button.icon.source: "qrc:/assets/plus.png"
-		button.icon.color: Material.background
 		button.icon.width: 20
 		button.icon.height: 20
 
