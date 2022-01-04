@@ -52,15 +52,14 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 
-	engine.load(url);
+	auto fontId = QFontDatabase::addApplicationFont(
+				":/assets/DejaVuSans.ttf");
+	auto font = QFont();
+	font.setFamily(QFontDatabase::applicationFontFamilies(fontId).at(0));
+	font.setPixelSize(16);
+	app.setFont(font);
 
-	auto id = QFontDatabase::addApplicationFont(":/assets/DejaVuSans.ttf");
-	if (id < 0) {
-		qDebug() << "Error in loading font";
-		return -1;
-	}
-	auto defaultFont = QFont(QFontDatabase::applicationFontFamilies(id)[0]);
-	app.setFont(defaultFont);
+	engine.load(url);
 
 	return app.exec();
 }

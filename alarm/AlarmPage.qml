@@ -16,27 +16,37 @@ ListView {
 
 	id: idAlarmList
 
-	spacing: 8
+	spacing: 4
 	model: AlarmModel
 	highlightFollowsCurrentItem: true
+	boundsBehavior: Flickable.StopAtBounds
 
 	delegate: AlarmDelegate {}
 
+//	Button {
+//		anchors.bottom: idAddNew.top
+//		anchors.bottomMargin: 16
+//		anchors.horizontalCenter: parent.horizontalCenter
+//		width: 48
+//		height: 48 + topPadding
+//	}
+
 	CButton {
 		id: idAddNew
-		width: 56
-		height: 56
+		Material.elevation: 6
 
 		anchors {
 			bottom: parent.bottom
 			bottomMargin: 16
-			right: parent.right
-			rightMargin: 16
+			horizontalCenter: parent.horizontalCenter
 		}
-		icon.source: "qrc:/assets/plus.png"
-		icon.color: Material.background
+		button.highlighted: true
+		button.icon.source: "qrc:/assets/plus.png"
+		button.icon.color: Material.background
+		button.icon.width: 20
+		button.icon.height: 20
 
-		onButtonReleased: {
+		button.onReleased: {
 			idMainStack.push(idNewAlarm);
 		}
 		Behavior on y {

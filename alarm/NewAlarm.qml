@@ -2,26 +2,27 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import reminder
+import '..'
 
 Item {
 	TextMetrics {
 		id: idTxM
-		font.family: idFont.name
-		font.pointSize: 40
+		font.family: Qt.application.font.family
+		font.pixelSize: 44
 		text: "00"
 	}
 
 	ColumnLayout {
 		id: idGrid
 		anchors.fill: parent
-		anchors.bottomMargin: 20
+		anchors.bottomMargin: 16
 
 		ColumnLayout {
 			Layout.alignment: Qt.AlignTop
 
 			Label {
 				Layout.fillWidth: true
-				font.pointSize: 20
+				font.pixelSize: 20
 				clip: true
 				horizontalAlignment: Text.AlignHCenter
 				verticalAlignment: Text.AlignVCenter
@@ -30,7 +31,7 @@ Item {
 			Label {
 				id: idTimeDis
 				Layout.fillWidth: true
-				font.pointSize: 16
+				font.pixelSize: 16
 				clip: true
 				opacity: 0.6
 				horizontalAlignment: Text.AlignHCenter
@@ -48,73 +49,82 @@ Item {
 			Tumbler {
 				id: idHour
 				Layout.preferredWidth: idTxM.width * 1.25
-				Layout.preferredHeight: idTxM.height * 6
+				Layout.preferredHeight: idTxM.height * 5.2
 				model: 24
 				delegate: Label {
 					width: idHour.width
+					height: idTxM.height
 					text: index
 					horizontalAlignment: Qt.AlignHCenter
-					font.pointSize: 40
-					font.bold: opacity > 0.95
-					opacity: 1.0 - Math.abs(Tumbler.displacement * 1.1)
-							 / (Tumbler.tumbler.visibleItemCount / 2)
+					font.pixelSize: idTxM.font.pixelSize
+					font.bold: opacity > 0.9
+					scale: opacity > 0.9 ? opacity
+										 : opacity > 0.4 ? opacity : 0.4
+					opacity: 1.0 - Math.abs(Tumbler.displacement * 1.3)
+							 / (Tumbler.tumbler.visibleItemCount)
 				}
 			}
 
 			Tumbler {
 				id: idMinute
 				Layout.preferredWidth: idTxM.width * 1.25
-				Layout.preferredHeight: idTxM.height * 6
+				Layout.preferredHeight: idTxM.height * 5.2
 				model: 60
 				delegate: Label {
 					width: idHour.width
+					height: idTxM.height
 					text: index
 					horizontalAlignment: Qt.AlignHCenter
-					font.pointSize: 40
+					font.pixelSize: idTxM.font.pixelSize
 					font.bold: opacity > 0.9
-					opacity: 1.0 - Math.abs(Tumbler.displacement * 1.1)
-							 / (Tumbler.tumbler.visibleItemCount / 2)
+					scale: opacity > 0.9 ? opacity
+										 : opacity > 0.5 ? opacity : 0.5
+					opacity: 1.0 - Math.abs(Tumbler.displacement * 1.3)
+							 / (Tumbler.tumbler.visibleItemCount)
 				}
 			}
 		}
 
 		RowLayout {
-			Layout.fillWidth: true
-			Layout.rightMargin: 10
-			Layout.leftMargin: 10
-			Layout.preferredHeight: idRoot.height / 16
 			Layout.alignment: Qt.AlignBottom | Qt.AlignHCenter
-			spacing: 30
+			Layout.bottomMargin: 32
+			spacing: 32
 
-			Button {
+			CButton {
 				Layout.alignment: Qt.AlignHCenter
-				background: Rectangle {
-					color: "transparent"
-					border.width: 2
-					border.color: Qt.alpha(Material.foreground, 0.6)
-					radius: width / 2.2
-				}
-				display: Button.IconOnly
-				icon.source: "qrc:/assets/close.png"
-				onReleased: {
+				Layout.preferredWidth: width
+				Layout.preferredHeight: height
+
+				button.display: Button.IconOnly
+				button.icon.source: "qrc:/assets/close.png"
+				button.icon.width: 28
+				button.icon.height: 28
+				button.flat: true
+				button.onReleased: {
 					idMainStack.pop();
 				}
 			}
 
 
-			Button {
-				Layout.fillHeight: false
+			CButton {
+				id: idDone
 				Layout.alignment: Qt.AlignHCenter
-				background: Rectangle {
-					color: "transparent"
-					border.width: 2
-					border.color: Qt.alpha(Material.foreground, 0.6)
-					radius: width / 2.2
-				}
-				display: Button.IconOnly
-				icon.source: "qrc:/assets/done.png"
-				icon.color: Material.accent
-				onReleased: {
+				Layout.preferredWidth: width
+				Layout.preferredHeight: height
+
+				Material.background: Material.color(
+									 Material.Grey,
+									 Material.theme === Material.Dark ?
+										 Material.Shade700 :
+										 Material.Shade200)
+
+				button.display: Button.IconOnly
+				button.icon.source: "qrc:/assets/done.png"
+				button.icon.color: Material.accent
+				button.icon.width: 28
+				button.icon.height: 28
+				button.flat: true
+				button.onReleased: {
 					AlarmModel.insert(
 								(idHour.currentIndex < 10 ? "0" : "")
 								+ idHour.currentIndex

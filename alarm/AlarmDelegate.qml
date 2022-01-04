@@ -12,10 +12,6 @@ ItemDelegate {
 	leftPadding: 16; rightPadding: 16
 	focus: false
 
-	background: Rectangle {
-		color: "teal"
-	}
-
 	contentItem: RowLayout {
 		id: idLayout
 
@@ -24,13 +20,13 @@ ItemDelegate {
 			Label {
 				id: idTimeLbl
 				Layout.fillWidth: true
-				font.pointSize: 18
+				font.pixelSize: 20
 				text: model.time
 			}
 			Label {
 				id: idRepeatLbl
 				Layout.fillWidth: true
-				font.pointSize: 13
+				font.pixelSize: 14
 				font.weight: Font.Light
 				text: model.repeat
 			}

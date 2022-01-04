@@ -6,13 +6,13 @@ import '..'
 
 Item {
 	property int fontPSize: 40
-	readonly property double preferredWidth: idTxM.width + 2;
+	readonly property double preferredWidth: idTxM.width + 5;
 	id: idChrn
 
 	TextMetrics {
 		id: idTxM
-		font.family: idFont.name
-		font.pointSize: fontPSize
+		font.family: Qt.application.font.family
+		font.pixelSize: fontPSize
 		text: "00"
 	}
 
@@ -29,6 +29,7 @@ Item {
 
 	RowLayout {
 		id: idTimeRow
+		spacing: 4
 		anchors {
 			horizontalCenter: parent.horizontalCenter
 			top: parent.top
@@ -42,21 +43,21 @@ Item {
 		Label {
 			id: idMinLbl
 			Layout.preferredWidth: preferredWidth
-			font.pointSize: fontPSize
+			font.pixelSize: fontPSize
 			text: "00"
 		}
-		Label { font.pointSize: fontPSize; text: ":" }
+		Label { font.pixelSize: fontPSize; text: ":" }
 		Label {
 			id: idSecLbl
 			Layout.preferredWidth: preferredWidth
-			font.pointSize: fontPSize
+			font.pixelSize: fontPSize
 			text: "00"
 		}
-		Label { font.pointSize: fontPSize; text: "." }
+		Label { font.pixelSize: fontPSize; text: "." }
 		Label {
 			id: idMSecLbl
 			Layout.preferredWidth: preferredWidth
-			font.pointSize: fontPSize
+			font.pixelSize: fontPSize
 			text: "00"
 		}
 	}
@@ -81,14 +82,14 @@ Item {
 	CButton {
 		id: idStop
 		anchors.centerIn: idStartPause
-		icon.source: "qrc:/assets/stop.png"
+		button.icon.source: "qrc:/assets/stop.png"
 		visible: false
 
 		Behavior on anchors.horizontalCenterOffset {
 			NumberAnimation { duration: 200 }
 		}
 
-		onButtonReleased: {
+		button.onReleased: {
 			idChrn.state = "Idle";
 			idChList.clear();
 		}
@@ -97,14 +98,13 @@ Item {
 	CButton {
 		id: idLap
 		anchors.centerIn: idStartPause
-		icon.source: "qrc:/assets/flag.png"
+		button.icon.source: "qrc:/assets/flag.png"
 		visible: false
 
 		Behavior on anchors.horizontalCenterOffset {
 			NumberAnimation { duration: 200 }
 		}
-
-		onButtonReleased: {
+		button.onReleased: {
 			if (idChrn.state === "Start")
 				idChList.addRecord(idChList.count + 1 + ". " + idMinLbl.text
 								   + ":" + idSecLbl.text + "."
@@ -120,9 +120,9 @@ Item {
 			bottomMargin: width / 4
 			horizontalCenter: parent.horizontalCenter
 		}
-		icon.source: "qrc:/assets/play.png"
+		button.icon.source: "qrc:/assets/play.png"
 
-		onButtonReleased: {
+		button.onReleased: {
 			if (idChrn.state === "Idle") {
 				idTimer.start();
 				idChrn.state = "Start";
@@ -152,7 +152,7 @@ Item {
 				anchors.horizontalCenterOffset: 0
 			}
 			PropertyChanges { target: idStartPause
-				icon.source: "qrc:/assets/play.png"
+				button.icon.source: "qrc:/assets/play.png"
 			}
 			PropertyChanges { target: idMinLbl; text: "00" }
 			PropertyChanges { target: idSecLbl; text: "00" }
@@ -171,7 +171,7 @@ Item {
 				anchors.horizontalCenterOffset: idStartPause.width + 15
 			}
 			PropertyChanges { target: idStartPause
-				icon.source: "qrc:/assets/pause.png"
+				button.icon.source: "qrc:/assets/pause.png"
 			}
 		},
 		State {

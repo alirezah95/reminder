@@ -21,6 +21,7 @@ ApplicationWindow {
 										Material.theme === Material.Dark
 										? Material.Shade900:
 										  Material.Shade50);
+	font: Qt.application.font
 
 	StatusBar {
 		color: Qt.darker(Material.primary, 1.2)
@@ -28,15 +29,6 @@ ApplicationWindow {
 
 	onClosing: function(close) {
 		close.accepted = true;
-	}
-
-	FontLoader {
-		id: idFont
-		source: "qrc:/assets/DejaVuSans.ttf"
-	}
-	FontLoader {
-		id: idMonoFont
-		source: "qrc:/assets/DejaVuSansMono.ttf"
 	}
 
 	StackView {
