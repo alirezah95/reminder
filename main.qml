@@ -15,20 +15,33 @@ ApplicationWindow {
 			? Screen.desktopAvailableHeight : 823
 	visible: true
 	title: qsTr("Reminder")
+	font: Qt.application.font
 
 	Material.accent: Material.Blue
 	Material.background: Material.color(Material.Grey,
 										Material.theme === Material.Dark
 										? Material.Shade900:
 										  Material.Shade50);
-	font: Qt.application.font
+
+	onClosing: function(close) {
+		close.accepted = true;
+	}
 
 	StatusBar {
 		color: Qt.darker(Material.primary, 1.2)
 	}
 
-	onClosing: function(close) {
-		close.accepted = true;
+	ListView {
+		property double itemsHeight: 72
+		id: idSelectList
+		anchors.left: idMainStack.right
+		width: 36
+
+		delegate: CheckDelegate {
+			width: ListView.view.width - 8
+			height: ListView.view.itemsHeight
+			x: 4
+		}
 	}
 
 	StackView {
@@ -65,7 +78,7 @@ ApplicationWindow {
 			SwipeView {
 				id: idMainSwipe
 				anchors.fill: parent
-				currentIndex: idHeader.currentIndex
+				currentIndex: idPageButtons.currentIndex
 
 				AlarmPage {
 					id: idAlarmPage
@@ -77,7 +90,7 @@ ApplicationWindow {
 			}
 
 			footer: TabBar {
-				id: idHeader
+				id: idPageButtons
 				implicitHeight: 48
 				currentIndex: idMainSwipe.currentIndex
 

@@ -21,5 +21,7 @@
         <file>alarm/AlarmDelegate.qml</file>
         <file>alarm/NewAlarm.qml</file>
         <file>assets/back.png</file>
+        <file>assets/delete.png</file>
+        <file>assets/selectall.png</file>
     </qresource>
 </RCC>
