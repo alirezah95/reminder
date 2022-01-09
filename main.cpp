@@ -9,6 +9,8 @@
 #include "alarm/alarmtime.hpp"
 #include "qtstatusbar/src/statusbar.h"
 #include "alarm/alarmproxymodel.hpp"
+#include "time/timezoneporxymodel.hpp"
+#include "time/timesproxymodel.hpp"
 
 
 int main(int argc, char *argv[])
@@ -41,8 +43,9 @@ int main(int argc, char *argv[])
 
 	qmlRegisterSingletonInstance("reminder", 0, 1, "AlarmModel", &alarmModel);
 	qmlRegisterType<StatusBar>("reminder", 0, 1, "StatusBar");
-	qmlRegisterSingletonInstance<AlarmTime>("reminder", 0, 1, "AlarmTime",
-											&at);
+	qmlRegisterSingletonInstance<AlarmTime>("reminder", 0, 1, "AlarmTime", &at);
+	qmlRegisterType<TimezonePorxyModel>("time", 0, 1, "TimezonesModel");
+	qmlRegisterType<TimesProxyModel>("time", 0, 1, "TimesModel");
 
 	QQmlApplicationEngine engine;
 	const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -62,7 +65,16 @@ int main(int argc, char *argv[])
 
 	engine.load(url);
 
-	qDebug() << QFontDatabase::families();
+	QTimeZone ame("America/New_York");
+	if (ame.isValid()) {
+		QDateTime time;
+		time.setTimeZone(ame);
+		time.setSecsSinceEpoch(QDateTime::currentSecsSinceEpoch());
+
+		qDebug() << time.toString("hh:mm:ss");
+	} else {
+		qDebug() << "Timezone is not valid";
+	}
 
 	return app.exec();
 }

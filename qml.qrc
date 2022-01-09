@@ -20,5 +20,6 @@
         <file>alarm/AlarmPage.qml</file>
         <file>alarm/AlarmDelegate.qml</file>
         <file>alarm/NewAlarm.qml</file>
+        <file>assets/back.png</file>
     </qresource>
 </RCC>
