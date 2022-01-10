@@ -61,7 +61,7 @@ Page {
 		}
 	}
 
-	state: "select"
+	state: "idle"
 	states: [
 		State {
 			name: "idle"
@@ -90,7 +90,7 @@ Page {
 			name: "select"
 			PropertyChanges {
 				target: idSrchBar
-				implicitHeight: 48
+				implicitHeight: 52
 			}
 			PropertyChanges {
 				target: idPageButtons
@@ -189,8 +189,6 @@ Page {
 
 	ListView {
 		anchors.fill: parent
-		anchors.leftMargin: 16
-		anchors.rightMargin: 16
 
 		id: idAlarmList
 
@@ -199,83 +197,90 @@ Page {
 		highlightFollowsCurrentItem: true
 		boundsBehavior: Flickable.StopAtBounds
 
-		delegate: RowLayout {
+		delegate: ItemDelegate {
 			width: ListView.view.width
 			height: 72
 
-			AlarmDelegate {
-				Layout.fillWidth: true
-				Layout.fillHeight: true
-				enabled: (idPage.state === "idle")
-				onPressAndHold: {
+			onPressAndHold: {
+				if (idPage.state !== "select") {
 					idCheck.toggle();
 					idCheck.toggled();
 					idPage.state = "select";
 				}
 			}
-			CheckDelegate {
-				id: idCheck
-				implicitWidth: 32
-				implicitHeight: 32
-				Layout.preferredWidth: (idPage.state === "select")?
-										   implicitWidth: 0
-				Layout.preferredHeight: implicitWidth
-				Layout.alignment: Qt.AlignCenter
-				visible: scale > 0.01
-				scale: (idPage.state === "select") ? 1: 0
 
-				Component.onCompleted: {
-					d.selectAllChanged.connect(function (selected) {
-						idCheck.checked = selected;
-					});
+			contentItem: RowLayout {
+				AlarmDelegate {
+					enabled: (idPage.state === "idle")
+					Layout.fillWidth: true
+					Layout.fillHeight: true
 				}
+				CheckDelegate {
+					id: idCheck
+					implicitWidth: 32
+					implicitHeight: 32
+					Layout.preferredWidth: (idPage.state === "select")?
+											   implicitWidth: 0
+					Layout.preferredHeight: implicitWidth
+					Layout.alignment: Qt.AlignCenter
+					visible: scale > 0.01
+					scale: (idPage.state === "select") ? 1: 0
 
-				onVisibleChanged: {
-					if (!visible) checked = false;
-				}
+					function allChanged(selected) {
+						this.checked = selected;
+					}
 
-				indicator: Rectangle {
-					implicitWidth: 20
-					implicitHeight: 20
-					anchors.centerIn: parent
-					radius: 10
-					color: "transparent"
-					border.width: 2
-					border.color:
-						idCheck.checked ? Qt.alpha(Material.accent, 0.76)
-										: Qt.alpha(Material.foreground, 0.56)
+					Component.onCompleted: {
+						d.selectAllChanged.connect(allChanged);
+					}
 
-					Rectangle {
-						width: parent.width / 2
-						height: parent.height / 2
+					onVisibleChanged: {
+						if (!visible) checked = false;
+					}
+
+					indicator: Rectangle {
+						implicitWidth: 20
+						implicitHeight: 20
 						anchors.centerIn: parent
-						radius: width / 2
-						color: Material.accent
-						visible: idCheck.checked
-					}
-				}
+						radius: 10
+						color: "transparent"
+						border.width: 2
+						border.color:
+							idCheck.checked ? Qt.alpha(Material.accent, 0.76)
+											: Qt.alpha(Material.foreground, 0.56)
 
-				background: Rectangle {
-					implicitWidth: 24
-					implicitHeight: 24
-					visible: idCheck.down || idCheck.hovered
-					color: Qt.alpha(Material.foreground, 0.12)
-				}
-
-				onToggled: {
-					if (checked) {
-						d.itemSelected(model.index)
+						Rectangle {
+							width: parent.width / 2
+							height: parent.height / 2
+							anchors.centerIn: parent
+							radius: width / 2
+							color: Material.accent
+							visible: idCheck.checked
+						}
 					}
-					else {
-						d.itemDeselected(model.index)
-					}
-				}
 
-				Behavior on scale {
-					NumberAnimation { duration: 150 }
-				}
-				Behavior on Layout.preferredWidth {
-					NumberAnimation { duration: 150 }
+					background: Rectangle {
+						implicitWidth: 24
+						implicitHeight: 24
+						visible: idCheck.down || idCheck.hovered
+						color: Qt.alpha(Material.foreground, 0.12)
+					}
+
+					onToggled: {
+						if (checked) {
+							d.itemSelected(model.index)
+						}
+						else {
+							d.itemDeselected(model.index)
+						}
+					}
+
+					Behavior on scale {
+						NumberAnimation { duration: 150 }
+					}
+					Behavior on Layout.preferredWidth {
+						NumberAnimation { duration: 150 }
+					}
 				}
 			}
 		}

@@ -22,13 +22,20 @@ ApplicationWindow {
 										Material.theme === Material.Dark
 										? Material.Shade900:
 										  Material.Shade50);
+	Material.primary: Qt.darker(Material.background, 1.1)
+
+	Component.onCompleted: {
+		print(Material.background)
+	}
 
 	onClosing: function(close) {
 		close.accepted = true;
 	}
 
 	StatusBar {
-		color: Qt.darker(Material.primary, 1.2)
+		color: idRoot.Material.primary
+		theme: idRoot.Material.theme === Material.Light ? StatusBar.Light
+														: StatusBar.Dark
 	}
 
 	StackView {

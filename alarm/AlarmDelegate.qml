@@ -1,59 +1,14 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtQuick.Controls.Material 2.3
+import QtQuick.Controls.Material
 
-ItemDelegate {
+Control {
 	id: idAlarm
 
 	hoverEnabled: false
 	leftPadding: 0; rightPadding: 0
-
-	state: "idle"
-	states: [
-		State {
-			name: "hold"
-			PropertyChanges {
-				target: idAlarm
-				highlighted: true
-			}
-			PropertyChanges {
-				target: idSw
-				opacity: 0
-				enabled: false
-			}
-			PropertyChanges {
-				target: idDelBtn
-				opacity: 1
-				enabled: true
-			}
-		},
-
-		State {
-			name: "idle"
-			PropertyChanges {
-				target: idAlarm
-				highlighted: false
-			}
-			PropertyChanges {
-				target: idSw
-				opacity: 1
-				enabled: true
-			}
-			PropertyChanges {
-				target: idDelBtn
-				opacity: 0
-				enabled: false
-			}
-		}
-	]
-
-	transitions: [
-		Transition {
-			from: "*"; to: "*"
-			NumberAnimation { property: "opacity"; duration: 250 }
-		}
-	]
+	focus: false
 
 	contentItem: RowLayout {
 		id: idLayout
@@ -84,6 +39,7 @@ ItemDelegate {
 				width: 48
 				height: 24
 				anchors.centerIn: parent
+				opacity: enabled ? 1: 0.5
 
 				indicator: Rectangle {
 					readonly property int offset: 4
@@ -114,16 +70,6 @@ ItemDelegate {
 				}
 				onToggled: {
 					model.active = checked;
-				}
-			}
-
-			RoundButton {
-				id: idDelBtn
-				anchors.fill: parent
-				icon.source: "qrc:/assets/delete.png"
-
-				onReleased: {
-
 				}
 			}
 		}
