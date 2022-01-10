@@ -25,7 +25,8 @@ public:
 				int role=Qt::EditRole) override;
 
 	Q_INVOKABLE bool insert(QString time, QString repeat, bool active);
-	Q_INVOKABLE bool remove(int row);
+	Q_INVOKABLE bool remove(const QModelIndex& row);
+	Q_INVOKABLE bool removeMultiple(QList<QModelIndex>& rows);
 
 private:
 	QSqlTableModel			mSql;

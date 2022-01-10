@@ -1,5 +1,6 @@
 #include "sqlalarmmodel.hpp"
 #include <QtSql>
+#include <algorithm>
 
 SqlAlarmModel::SqlAlarmModel(QObject *parent)
 	: QAbstractListModel(parent)
@@ -22,13 +23,14 @@ SqlAlarmModel::SqlAlarmModel(QObject *parent)
 	 * Setting up mSql to use alarm table, the default submit behavior is left
 	 * on OnRowChanged.
 	 */
+	beginResetModel();
 	mSql.setTable("alarm");
+	mSql.setEditStrategy(QSqlTableModel::OnManualSubmit);
 	if (!mSql.select()) {
 		qDebug() << "Error in getting data from database: "
 				 << mSql.lastError().text();
 		return;
 	}
-	beginResetModel();
 	endResetModel();
 
 }
@@ -78,7 +80,6 @@ bool SqlAlarmModel::setData(const QModelIndex& index, const QVariant& value,
 {
 	if (!index.isValid())
 		return false;
-	qDebug() << role - Qt::UserRole - 1;
 	auto res = mSql.setData(mSql.index(index.row(), role - Qt::UserRole - 1),
 							value);
 	if (!res) {
@@ -99,24 +100,36 @@ bool SqlAlarmModel::insert(QString time, QString repeat, bool active)
 	record.setValue(1, repeat);
 	record.setValue(2, active);
 
-	if (mSql.insertRecord(-1, record)) {
-		beginInsertRows(QModelIndex(), rowCount() - 1, rowCount() - 1);
-		endInsertRows();
-		return true;
-	} else {
-		return false;
-	}
+	beginInsertRows(QModelIndex(), rowCount(), rowCount());
+	auto res = mSql.insertRecord(-1, record);
+	endInsertRows();
+	return res;
 }
 
-bool SqlAlarmModel::remove(int row)
+bool SqlAlarmModel::remove(const QModelIndex& row)
 {
-	if (mSql.removeRow(row)) {
-		beginRemoveRows(QModelIndex(), row, row);
-		endRemoveRows();
-		return true;
-	} else {
-		return false;
+	qDebug() << "Row removed: " << row.row();
+	beginRemoveRows(QModelIndex(), row.row(), row.row());
+	auto res = mSql.removeRow(row.row());
+	endRemoveRows();
+	return res;
+}
+
+bool SqlAlarmModel::removeMultiple(QList<QModelIndex>& rows)
+{
+	/* Items are sorted first. */
+	std::sort(rows.begin(), rows.end(), [](const QModelIndex& a,
+			  const QModelIndex& b) {
+		return a.row() > b.row();
+	});
+	QString s = "";
+	for (auto a: rows) {
+		beginRemoveRows(QModelIndex(), a.row(), a.row());
+		mSql.removeRow(a.row());
 	}
+	endRemoveRows();
+
+	return false;
 }
 
 //bool SqlAlarmModel::removeAlarm(QString time, QString repeat, bool active)

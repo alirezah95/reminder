@@ -15,6 +15,7 @@ public:
 
 	Q_INVOKABLE bool insert(QString time, QString repeat, bool active);
 	Q_INVOKABLE bool remove(int row);
+	Q_INVOKABLE bool removeMultiple(QList<int>& rows);
 
 private:
 	SqlAlarmModel*	mSource;

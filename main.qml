@@ -31,19 +31,6 @@ ApplicationWindow {
 		color: Qt.darker(Material.primary, 1.2)
 	}
 
-	ListView {
-		property double itemsHeight: 72
-		id: idSelectList
-		anchors.left: idMainStack.right
-		width: 36
-
-		delegate: CheckDelegate {
-			width: ListView.view.width - 8
-			height: ListView.view.itemsHeight
-			x: 4
-		}
-	}
-
 	StackView {
 		id: idMainStack
 		initialItem: idMainPage
