@@ -111,9 +111,7 @@ Item {
 			horizontalCenter: parent.horizontalCenter
 		}
 		button.highlighted: true
-		button.icon.source: "qrc:/assets/plus.png"
-		button.icon.width: 20
-		button.icon.height: 20
+		imageIcon.source: "qrc:/assets/plus.png"
 
 		button.onReleased: {
 			idMainStack.push(idZonesComp);
@@ -140,15 +138,15 @@ Item {
 			ColumnLayout {
 				anchors.fill: parent
 				TextField {
+					id: idZoneSearch
 					Layout.fillWidth: true
 					Layout.preferredHeight: 56
-
 					leftPadding: 16
 					rightPadding: 16
-
 					placeholderText: "Search timezone"
-					onTextChanged: {
-						idTzModel.setFilterFixedString(text);
+					onDisplayTextChanged: {
+						idTzModel.setFilterRegularExpression(
+									RegExp(idZoneSearch.displayText, "i"));
 					}
 				}
 

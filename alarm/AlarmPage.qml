@@ -295,9 +295,7 @@ Page {
 				horizontalCenter: parent.horizontalCenter
 			}
 			button.highlighted: true
-			button.icon.source: "qrc:/assets/plus.png"
-			button.icon.width: 20
-			button.icon.height: 20
+			imageIcon.source: "qrc:/assets/plus.png"
 
 			button.onReleased: {
 				idMainStack.push(idNewAlarm);

@@ -33,7 +33,7 @@ ApplicationWindow {
 	}
 
 	StatusBar {
-		color: idRoot.Material.primary
+		color: idRoot.Material.background
 		theme: idRoot.Material.theme === Material.Light ? StatusBar.Light
 														: StatusBar.Dark
 	}

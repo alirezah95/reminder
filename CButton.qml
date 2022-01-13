@@ -8,16 +8,12 @@ import QtQuick.Shapes
 Control {
 	id: idControl
 	property alias button: idBtn
+	property alias imageIcon: idIcon
 
 	Material.elevation: 6
 
 	width: 56
 	height: 56
-
-	rightPadding: 8
-	leftPadding: 8
-	topPadding: 8
-	bottomPadding: 8
 
 	signal buttonReleased
 
@@ -40,10 +36,11 @@ Control {
 		width: idControl.width - idControl.rightPadding
 		height: idControl.height - idControl.topPadding
 		anchors.centerIn: parent
-		rightPadding: 0
-		leftPadding: 0
-		topPadding: 0
-		bottomPadding: 0
+
+		rightPadding: 16
+		leftPadding: 16
+		topPadding: 16
+		bottomPadding: 16
 
 		onReleased: buttonReleased();
 
@@ -54,28 +51,37 @@ Control {
 			color: idBtn.highlighted ? idControl.Material.accent:
 									   idControl.Material.background
 			radius: parent.width * 0.5
-		}
 
-		highlighted: false
-
-		icon.width: 24
-		icon.height: 24
-
-		Ripple {
-			id: idRip
-			width: idBtn.width; height: idBtn.height
-			anchor: idBg
-			visible: idBg.visible
-			active: idBtn.hovered && !idBtn.pressed
-			pressed: idBtn.pressed
-			color: Qt.darker(idBg.color, 1.15)
-			layer.enabled: true
-			layer.effect: OpacityMask {
-				maskSource: Rectangle {
-					width: idRip.width; height: idRip.height
-					radius: idBg.radius
+			Ripple {
+				id: idRip
+				width: idBtn.width; height: idBtn.height
+				anchor: idBg
+				visible: idBg.visible
+				active: idBtn.hovered && !idBtn.pressed
+				pressed: idBtn.pressed
+				color: Qt.darker(idBg.color, 1.15)
+				layer.enabled: true
+				layer.effect: OpacityMask {
+					maskSource: Rectangle {
+						width: idRip.width; height: idRip.height
+						radius: idBg.radius
+					}
 				}
 			}
 		}
+
+		contentItem: Item {
+			Image {
+				id: idIcon
+				anchors.fill: parent
+			}
+			ColorOverlay {
+				anchors.fill: idIcon
+				source: idIcon
+				color: Material.primary
+			}
+		}
+
+		highlighted: false
 	}
 }

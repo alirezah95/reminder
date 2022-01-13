@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
 import 'chrono.js' as Chrono
 import '..'
 
@@ -83,7 +84,8 @@ Item {
 		anchors.centerIn: idStartPause
 		visible: false
 		button.highlighted: true
-		button.icon.source: "qrc:/assets/stop.png"
+		imageIcon.source: "qrc:/assets/stop.png"
+
 
 		Behavior on anchors.horizontalCenterOffset {
 			NumberAnimation { duration: 200 }
@@ -100,7 +102,7 @@ Item {
 		anchors.centerIn: idStartPause
 
 		button.highlighted: true
-		button.icon.source: "qrc:/assets/flag.png"
+		imageIcon.source: "qrc:/assets/flag.png"
 		visible: false
 
 		Behavior on anchors.horizontalCenterOffset {
@@ -124,7 +126,7 @@ Item {
 		}
 
 		button.highlighted: true
-		button.icon.source: "qrc:/assets/play.png"
+		imageIcon.source: "qrc:/assets/play.png"
 
 		button.onReleased: {
 			if (idChrn.state === "Idle") {
