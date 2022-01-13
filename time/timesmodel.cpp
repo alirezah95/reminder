@@ -13,7 +13,7 @@ TimesModel::TimesModel(QObject *parent)
 	if (!defaultDb.tables().contains("tz")) {
 		QSqlQuery query;
 		if (!query.exec("create table tz("
-				   "tzid text);") ) {
+				   "tzid text primary key);") ) {
 			qDebug() << "Could not create table...";
 			return;
 		}
@@ -84,14 +84,16 @@ bool TimesModel::insert(const QString zoneId)
 	if (!newZone.isValid())
 		return false;
 
-	beginInsertRows(QModelIndex(), mSql.rowCount(), mSql.rowCount());
 	QSqlRecord newRec;
 	newRec.append(QSqlField("tzid"));
 	newRec.setValue(0, zoneId);
 
-	auto res = mSql.insertRecord(-1, newRec);
-	endInsertRows();
-	return res;
+	if (mSql.insertRecord(-1, newRec)) {
+		beginInsertRows(QModelIndex(), mSql.rowCount() - 1, mSql.rowCount() - 1);
+		endInsertRows();
+		return true;
+	}
+	return false;
 }
 
 bool TimesModel::remove(const QModelIndex& indx)
@@ -99,10 +101,12 @@ bool TimesModel::remove(const QModelIndex& indx)
 	if (!indx.isValid() || indx.row() >= mSql.rowCount() || indx.row() < 0)
 		return false;
 
-	beginRemoveRows(QModelIndex(), indx.row(), indx.row());
-	auto res = mSql.removeRow(indx.row());
-	endRemoveRows();
-	return res;
+	if (mSql.removeRow(indx.row())) {
+		beginRemoveRows(QModelIndex(), indx.row(), indx.row());
+		endRemoveRows();
+		return true;
+	}
+	return false;
 }
 
 void TimesModel::updateTimes()
