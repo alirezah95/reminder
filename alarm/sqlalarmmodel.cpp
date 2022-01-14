@@ -100,7 +100,7 @@ bool SqlAlarmModel::insert(QString time, QString repeat, bool active)
 	record.setValue(2, active);
 
 	if (mSql.insertRecord(-1, record)) {
-		beginInsertRows(QModelIndex(), rowCount(), rowCount());
+		beginInsertRows(QModelIndex(), rowCount() - 1, rowCount() - 1);
 		endInsertRows();
 		return true;
 	} else {
