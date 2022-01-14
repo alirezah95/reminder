@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls 2.5
 import QtQuick.Layouts
-import QtQuick.Controls.Material.impl
+import QtQuick.Controls.Material
 import reminder
 import 'alarm'
 import 'time'
@@ -17,6 +17,9 @@ ApplicationWindow {
 	title: qsTr("Reminder")
 	font: Qt.application.font
 
+	Material.theme: (Qt.platform.os === "android") ?
+						(androidNightMode ? Material.Dark: Material.Light):
+						Material.Light
 	Material.accent: Material.Blue
 	Material.primary: Qt.darker(Material.background, 1.1)
 

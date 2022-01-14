@@ -13,6 +13,25 @@
 #include "time/timesproxymodel.hpp"
 
 
+#define UI_MODE_NIGHT_MASK	48
+#define UI_MODE_NIGHT_YES	32
+
+bool isAndroidNightModeEnabled() {
+#ifdef Q_OS_ANDROID
+
+	QJniObject context = QNativeInterface::QAndroidApplication::context();
+	QJniObject resource = context.callObjectMethod(
+				"getResources", "()Landroid/content/res/Resources;");
+	QJniObject config = resource.callObjectMethod(
+				"getConfiguration", "()Landroid/content/res/Configuration;");
+	auto uiMode = config.getField<jint>("uiMode") & UI_MODE_NIGHT_MASK;
+	return (uiMode == UI_MODE_NIGHT_YES);
+#else
+	return false;
+#endif
+}
+
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -55,6 +74,10 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 
+	auto root = engine.rootContext();
+	root->setContextProperty("androidNightMode",
+							 isAndroidNightModeEnabled());
+
 	QFontDatabase::addApplicationFont(":/assets/DejaVuSansMono.ttf");
 	auto fontId = QFontDatabase::addApplicationFont(
 				":/assets/DejaVuSans.ttf");
@@ -64,17 +87,6 @@ int main(int argc, char *argv[])
 	app.setFont(font);
 
 	engine.load(url);
-
-	QTimeZone ame("America/New_York");
-	if (ame.isValid()) {
-		QDateTime time;
-		time.setTimeZone(ame);
-		time.setSecsSinceEpoch(QDateTime::currentSecsSinceEpoch());
-
-		qDebug() << time.toString("hh:mm:ss");
-	} else {
-		qDebug() << "Timezone is not valid";
-	}
 
 	return app.exec();
 }
