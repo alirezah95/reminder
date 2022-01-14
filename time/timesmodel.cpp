@@ -20,8 +20,8 @@ TimesModel::TimesModel(QObject *parent)
 	}
 
 	mSql.setTable("tz");
-	beginResetModel();
 	mSql.select();
+	beginResetModel();
 	endResetModel();
 }
 
@@ -88,12 +88,15 @@ bool TimesModel::insert(const QString zoneId)
 	newRec.append(QSqlField("tzid"));
 	newRec.setValue(0, zoneId);
 
+
 	if (mSql.insertRecord(-1, newRec)) {
-		beginInsertRows(QModelIndex(), mSql.rowCount() - 1, mSql.rowCount() - 1);
+		beginInsertRows(QModelIndex(), mSql.rowCount() - 1,
+						mSql.rowCount() - 1);
 		endInsertRows();
 		return true;
+	} else {
+		return false;
 	}
-	return false;
 }
 
 bool TimesModel::remove(const QModelIndex& indx)
@@ -104,9 +107,27 @@ bool TimesModel::remove(const QModelIndex& indx)
 	if (mSql.removeRow(indx.row())) {
 		beginRemoveRows(QModelIndex(), indx.row(), indx.row());
 		endRemoveRows();
+		mSql.select();
 		return true;
 	}
 	return false;
+}
+
+bool TimesModel::removeMultiple(QList<QModelIndex>& indxes)
+{
+	std::sort(indxes.begin(), indxes.end(), [] (const QModelIndex& a,
+			  const QModelIndex& b) -> bool {
+		return a.row() > b.row();
+	});
+
+	for (const auto& idx: indxes) {
+		beginRemoveRows(QModelIndex(), idx.row(), idx.row());
+		mSql.removeRow(idx.row());
+	}
+	endRemoveRows();
+	mSql.select();
+
+	return true;
 }
 
 void TimesModel::updateTimes()

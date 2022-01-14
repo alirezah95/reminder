@@ -25,7 +25,6 @@ SqlAlarmModel::SqlAlarmModel(QObject *parent)
 	 */
 	beginResetModel();
 	mSql.setTable("alarm");
-	mSql.setEditStrategy(QSqlTableModel::OnManualSubmit);
 	if (!mSql.select()) {
 		qDebug() << "Error in getting data from database: "
 				 << mSql.lastError().text();
@@ -100,19 +99,25 @@ bool SqlAlarmModel::insert(QString time, QString repeat, bool active)
 	record.setValue(1, repeat);
 	record.setValue(2, active);
 
-	beginInsertRows(QModelIndex(), rowCount(), rowCount());
-	auto res = mSql.insertRecord(-1, record);
-	endInsertRows();
-	return res;
+	if (mSql.insertRecord(-1, record)) {
+		beginInsertRows(QModelIndex(), rowCount(), rowCount());
+		endInsertRows();
+		return true;
+	} else {
+		return false;
+	}
 }
 
 bool SqlAlarmModel::remove(const QModelIndex& row)
 {
-	qDebug() << "Row removed: " << row.row();
-	beginRemoveRows(QModelIndex(), row.row(), row.row());
-	auto res = mSql.removeRow(row.row());
-	endRemoveRows();
-	return res;
+	if (mSql.removeRow(row.row())) {
+		beginRemoveRows(QModelIndex(), row.row(), row.row());
+		endRemoveRows();
+		mSql.select();
+		return true;
+	} else {
+		return false;
+	}
 }
 
 bool SqlAlarmModel::removeMultiple(QList<QModelIndex>& rows)
@@ -122,14 +127,15 @@ bool SqlAlarmModel::removeMultiple(QList<QModelIndex>& rows)
 			  const QModelIndex& b) {
 		return a.row() > b.row();
 	});
-	QString s = "";
-	for (auto a: rows) {
+
+	for (const auto& a: rows) {
 		beginRemoveRows(QModelIndex(), a.row(), a.row());
 		mSql.removeRow(a.row());
 	}
 	endRemoveRows();
+	mSql.select();
 
-	return false;
+	return true;
 }
 
 //bool SqlAlarmModel::removeAlarm(QString time, QString repeat, bool active)

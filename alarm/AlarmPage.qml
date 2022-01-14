@@ -10,7 +10,7 @@ import reminder
 Page {
 	id: idPage
 	QtObject {
-		id: d
+		id: idP
 		property var selectedIndexes: []
 		signal selectAllChanged(bool allSelected);
 
@@ -31,7 +31,7 @@ Page {
 			idSelectLbl.text = selectedIndexes.length +
 					(selectedIndexes.length > 1 ? " items": " item")
 					+ " selected";
-			if (d.selectedIndexes.length === idAlarmList.count)
+			if (idP.selectedIndexes.length === idAlarmList.count)
 				idCheckAll.checked = true;
 			else
 				idCheckAll.checked = false;
@@ -53,7 +53,7 @@ Page {
 		}
 
 		function deleteSelectedItems() {
-			if (d.selectedIndexes.length === 1) {
+			if (idP.selectedIndexes.length === 1) {
 				AlarmModel.remove(selectedIndexes[0]);
 			} else {
 				AlarmModel.removeMultiple(selectedIndexes);
@@ -66,7 +66,7 @@ Page {
 		State {
 			name: "idle"
 			PropertyChanges {
-				target: idSrchBar
+				target: idSelectBar
 				implicitHeight: 0
 			}
 			PropertyChanges {
@@ -89,7 +89,7 @@ Page {
 		State {
 			name: "select"
 			PropertyChanges {
-				target: idSrchBar
+				target: idSelectBar
 				implicitHeight: 52
 			}
 			PropertyChanges {
@@ -114,16 +114,15 @@ Page {
 		Transition {
 			from: "*"; to: "*"
 			NumberAnimation {
-				target: idSrchBar
+				target: idSelectBar
 				duration: 150
 				property: "anchors.topMargin"
 			}
 		}
-
 	]
 
 	footer: ToolBar {
-		id: idSrchBar
+		id: idSelectBar
 		implicitHeight: 52
 
 		Loader {
@@ -142,7 +141,7 @@ Page {
 				id: idClose
 				icon.source: "qrc:/assets/close.png"
 				onReleased: {
-					d.selectedIndexes = [];
+					idP.selectedIndexes = [];
 					idPage.state = "idle";
 				}
 			}
@@ -158,13 +157,13 @@ Page {
 				implicitHeight: idClose.height
 				hoverEnabled: false
 				rightPadding: 24
-				checked: (d.selectedIndexes.length === idAlarmList.count)
+				checked: (idP.selectedIndexes.length === idAlarmList.count)
 
 				onToggled: {
-					if (d.selectedIndexes.length === idAlarmList.count) {
-						d.deselectAll();
+					if (idP.selectedIndexes.length === idAlarmList.count) {
+						idP.deselectAll();
 					} else {
-						d.selectAll();
+						idP.selectAll();
 					}
 				}
 			}
@@ -181,8 +180,8 @@ Page {
 			icon.color: Material.foreground
 			onReleased: {
 				idPage.state = "idle";
-				d.deleteSelectedItems();
-				d.selectedIndexes = [];
+				idP.deleteSelectedItems();
+				idP.selectedIndexes = [];
 			}
 		}
 	}
@@ -231,7 +230,7 @@ Page {
 					}
 
 					Component.onCompleted: {
-						d.selectAllChanged.connect(allChanged);
+						idP.selectAllChanged.connect(allChanged);
 					}
 
 					onVisibleChanged: {
@@ -268,10 +267,10 @@ Page {
 
 					onToggled: {
 						if (checked) {
-							d.itemSelected(model.index)
+							idP.itemSelected(model.index)
 						}
 						else {
-							d.itemDeselected(model.index)
+							idP.itemDeselected(model.index)
 						}
 					}
 

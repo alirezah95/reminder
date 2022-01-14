@@ -26,6 +26,7 @@ public:
 
 	Q_INVOKABLE bool insert(const QString zoneId);
 	Q_INVOKABLE bool remove(const QModelIndex& indx);
+	Q_INVOKABLE bool removeMultiple(QList<QModelIndex>& indxes);
 
 public slots:
 	void updateTimes();

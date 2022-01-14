@@ -18,15 +18,7 @@ ApplicationWindow {
 	font: Qt.application.font
 
 	Material.accent: Material.Blue
-	Material.background: Material.color(Material.Grey,
-										Material.theme === Material.Dark
-										? Material.Shade900:
-										  Material.Shade50);
 	Material.primary: Qt.darker(Material.background, 1.1)
-
-	Component.onCompleted: {
-		print(Material.background)
-	}
 
 	onClosing: function(close) {
 		close.accepted = true;

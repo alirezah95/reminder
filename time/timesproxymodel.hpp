@@ -13,7 +13,8 @@ public:
 	~TimesProxyModel();
 
 	Q_INVOKABLE bool insert(QString zoneId);
-	Q_INVOKABLE bool remove(const QModelIndex& index);
+	Q_INVOKABLE bool remove(int row);
+	Q_INVOKABLE bool removeMultiple(QList<int>& indexes);
 
 public slots:
 	void updateTimes();
