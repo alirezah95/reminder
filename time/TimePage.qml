@@ -83,8 +83,8 @@ Page {
 				implicitHeight: 48
 			}
 			PropertyChanges {
-				target: idDelLoader
-				sourceComponent: undefined
+				target: idDelBtnLoader
+				active: false
 			}
 			PropertyChanges {
 				target: idNewTime
@@ -106,8 +106,8 @@ Page {
 				implicitHeight: 0
 			}
 			PropertyChanges {
-				target: idDelLoader
-				sourceComponent: idDeleteBtn
+				target: idDelBtnLoader
+				active: true
 			}
 			PropertyChanges {
 				target: idNewTime
@@ -125,9 +125,11 @@ Page {
 		implicitHeight: 52
 
 		Loader {
-			id: idDelLoader
-			width: 56
-			height: 56
+			id: idDelBtnLoader
+			width: 60
+			height: 60
+			active: false
+			sourceComponent: idTPDeleteBtnCompo
 			anchors.bottom: parent.top
 			anchors.bottomMargin: 16
 			anchors.horizontalCenter: parent.horizontalCenter
@@ -140,6 +142,8 @@ Page {
 				id: idClose
 				icon.source: "qrc:/assets/close.png"
 				onReleased: {
+					idDelBtnLoader.item.scale = 0;
+					idDelBtnLoader.item.y = 100;
 					idP.selectedIndexes = [];
 					idPage.state = "idle";
 				}
@@ -170,20 +174,39 @@ Page {
 	}
 	transitions: [
 		Transition {
-			from: "*"; to: "*"
+			from: "idle"; to: "select"
 			NumberAnimation {
 				target: idSelectBar
-				duration: 150
-				property: "anchors.topMargin"
+				duration: 400
+				property: "implicitHeight"
+			}
+		},
+		Transition {
+			from: "select"; to: "idle"
+			PropertyAnimation {
+				target: idDelBtnLoader
+				property: "active"
+				duration: 200
+			}
+			NumberAnimation {
+				target: idSelectBar
+				duration: 400
+				property: "implicitHeight"
 			}
 		}
 	]
 
 	Component {
-		id: idDeleteBtn
+		id: idTPDeleteBtnCompo
 		RoundButton {
-			width: 56
-			height: 56
+			y: 100
+			scale: 1
+
+			Component.onCompleted: {
+				y = 0;
+				scale = 1;
+			}
+
 			Material.background: Material.BlueGrey
 			icon.source: "qrc:/assets/delete.png"
 			icon.color: Material.foreground
@@ -191,6 +214,13 @@ Page {
 				idPage.state = "idle";
 				idP.deleteSelectedItems();
 				idP.selectedIndexes = [];
+			}
+
+			Behavior on y {
+				NumberAnimation { duration: 200 }
+			}
+			Behavior on scale {
+				NumberAnimation { duration: 200 }
 			}
 		}
 	}
@@ -294,7 +324,7 @@ Page {
 						scale: (idPage.state === "select") ? 1: 0
 
 						function allChanged(selected) {
-							this.checked = selected;
+							idCheck	.checked = selected;
 						}
 
 						Component.onCompleted: {
@@ -369,8 +399,8 @@ Page {
 		button.onReleased: {
 			idMainStack.push(idZonesComp);
 		}
-		Behavior on y {
-			NumberAnimation { }
+		Behavior on scale {
+			NumberAnimation { duration: 200 }
 		}
 
 	}

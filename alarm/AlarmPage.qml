@@ -75,7 +75,7 @@ Page {
 			}
 			PropertyChanges {
 				target: idDelLoader
-				sourceComponent: undefined
+				active: false
 			}
 			PropertyChanges {
 				target: idAddNewBtn
@@ -98,7 +98,7 @@ Page {
 			}
 			PropertyChanges {
 				target: idDelLoader
-				sourceComponent: idDeleteBtn
+				active: true
 			}
 			PropertyChanges {
 				target: idAddNewBtn
@@ -115,8 +115,16 @@ Page {
 			from: "*"; to: "*"
 			NumberAnimation {
 				target: idSelectBar
-				duration: 150
-				property: "anchors.topMargin"
+				duration: 100
+				property: "implicitHeight"
+			}
+		},
+		Transition {
+			from: "select"; to: "idle"
+			PropertyAnimation {
+				target: idDelLoader
+				property: "active"
+				duration: 200
 			}
 		}
 	]
@@ -127,8 +135,10 @@ Page {
 
 		Loader {
 			id: idDelLoader
-			width: 56
-			height: 56
+			width: 60
+			height: 60
+			active: false
+			sourceComponent: idDeleteBtnComponent
 			anchors.bottom: parent.top
 			anchors.bottomMargin: 16
 			anchors.horizontalCenter: parent.horizontalCenter
@@ -141,6 +151,8 @@ Page {
 				id: idClose
 				icon.source: "qrc:/assets/close.png"
 				onReleased: {
+					idDelLoader.item.y = 100;
+					idDelLoader.item.scale = 0;
 					idP.selectedIndexes = [];
 					idPage.state = "idle";
 				}
@@ -171,10 +183,16 @@ Page {
 	}
 
 	Component {
-		id: idDeleteBtn
+		id: idDeleteBtnComponent
 		RoundButton {
-			width: 56
-			height: 56
+			y: 100
+			scale: 0
+
+			Component.onCompleted: {
+				y = 0;
+				scale = 1;
+			}
+
 			Material.background: Material.BlueGrey
 			icon.source: "qrc:/assets/delete.png"
 			icon.color: Material.foreground
@@ -182,6 +200,13 @@ Page {
 				idPage.state = "idle";
 				idP.deleteSelectedItems();
 				idP.selectedIndexes = [];
+			}
+
+			Behavior on y {
+				NumberAnimation { duration: 200 }
+			}
+			Behavior on scale {
+				NumberAnimation { duration: 200 }
 			}
 		}
 	}
@@ -226,7 +251,7 @@ Page {
 					scale: (idPage.state === "select") ? 1: 0
 
 					function allChanged(selected) {
-						this.checked = selected;
+						idCheck.checked = selected;
 					}
 
 					Component.onCompleted: {
@@ -299,8 +324,8 @@ Page {
 			button.onReleased: {
 				idMainStack.push(idNewAlarm);
 			}
-			Behavior on y {
-				NumberAnimation { }
+			Behavior on scale {
+				NumberAnimation { duration: 200 }
 			}
 		}
 

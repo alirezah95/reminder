@@ -96,10 +96,12 @@ Item {
 				Layout.preferredHeight: height
 
 				button.display: Button.IconOnly
-				button.icon.source: "qrc:/assets/close.png"
-				button.icon.width: 28
-				button.icon.height: 28
+				imageIcon.source: "qrc:/assets/close.png"
 				button.flat: true
+				button.rightPadding: 12
+				button.leftPadding: 12
+				button.topPadding: 12
+				button.bottomPadding: 12
 				button.onReleased: {
 					idMainStack.pop();
 				}
@@ -119,11 +121,13 @@ Item {
 										 Material.Shade200)
 
 				button.display: Button.IconOnly
-				button.icon.source: "qrc:/assets/done.png"
-				button.icon.color: Material.accent
-				button.icon.width: 28
-				button.icon.height: 28
+				imageIcon.source: "qrc:/assets/done.png"
+				iconColor: Material.accent
 				button.flat: true
+				button.rightPadding: 12
+				button.leftPadding: 12
+				button.topPadding: 12
+				button.bottomPadding: 12
 				button.onReleased: {
 					AlarmModel.insert(
 								(idHour.currentIndex < 10 ? "0" : "")

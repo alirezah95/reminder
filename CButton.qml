@@ -9,6 +9,7 @@ Control {
 	id: idControl
 	property alias button: idBtn
 	property alias imageIcon: idIcon
+	property alias iconColor: idIconOverlay.color
 
 	Material.elevation: 6
 
@@ -76,9 +77,10 @@ Control {
 				anchors.fill: parent
 			}
 			ColorOverlay {
+				id: idIconOverlay
 				anchors.fill: idIcon
 				source: idIcon
-				color: Material.primary
+				color: idBtn.flat ? Material.foreground : Material.primary
 			}
 		}
 
