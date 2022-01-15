@@ -9,205 +9,13 @@ import reminder
 
 Page {
 	id: idPage
-	QtObject {
-		id: idP
-		property var selectedIndexes: []
-		signal selectAllChanged(bool allSelected);
+	readonly property ListView lv: idAlarmList
 
-		function itemSelected(row) {
-			selectedIndexes.push(row);
-			updateSelectLbl();
-		}
-
-		function itemDeselected(row) {
-			var indexOfRow = selectedIndexes.indexOf(row);
-			if (indexOfRow != -1) {
-				selectedIndexes.splice(indexOfRow, 1);
-				updateSelectLbl();
-			}
-		}
-
-		function updateSelectLbl() {
-			idSelectLbl.text = selectedIndexes.length +
-					(selectedIndexes.length > 1 ? " items": " item")
-					+ " selected";
-			if (idP.selectedIndexes.length === idAlarmList.count)
-				idCheckAll.checked = true;
-			else
-				idCheckAll.checked = false;
-		}
-
-		function selectAll() {
-			selectedIndexes = [];
-			for (var i = 0; i < idAlarmList.count; i++) {
-				selectedIndexes.push(i);
-			}
-			selectAllChanged(true)
-			updateSelectLbl();
-		}
-
-		function deselectAll() {
-			selectedIndexes = [];
-			selectAllChanged(false);
-			updateSelectLbl();
-		}
-
-		function deleteSelectedItems() {
-			if (idP.selectedIndexes.length === 1) {
-				AlarmModel.remove(selectedIndexes[0]);
-			} else {
-				AlarmModel.removeMultiple(selectedIndexes);
-			}
-		}
-	}
-
-	state: "idle"
-	states: [
-		State {
-			name: "idle"
-			PropertyChanges {
-				target: idSelectBar
-				implicitHeight: 0
-			}
-			PropertyChanges {
-				target: idPageButtons
-				implicitHeight: 48
-			}
-			PropertyChanges {
-				target: idDelLoader
-				active: false
-			}
-			PropertyChanges {
-				target: idAddNewBtn
-				scale: 1
-			}
-			PropertyChanges {
-				target: idMainSwipe
-				interactive: true
-			}
-		},
-		State {
-			name: "select"
-			PropertyChanges {
-				target: idSelectBar
-				implicitHeight: 52
-			}
-			PropertyChanges {
-				target: idPageButtons
-				implicitHeight: 0
-			}
-			PropertyChanges {
-				target: idDelLoader
-				active: true
-			}
-			PropertyChanges {
-				target: idAddNewBtn
-				scale: 0
-			}
-			PropertyChanges {
-				target: idMainSwipe
-				interactive: false
-			}
-		}
-	]
-	transitions: [
-		Transition {
-			from: "*"; to: "*"
-			NumberAnimation {
-				target: idSelectBar
-				duration: 100
-				property: "implicitHeight"
-			}
-		},
-		Transition {
-			from: "select"; to: "idle"
-			PropertyAnimation {
-				target: idDelLoader
-				property: "active"
-				duration: 200
-			}
-		}
-	]
-
-	footer: ToolBar {
-		id: idSelectBar
-		implicitHeight: 52
-
-		Loader {
-			id: idDelLoader
-			width: 60
-			height: 60
-			active: false
-			sourceComponent: idDeleteBtnComponent
-			anchors.bottom: parent.top
-			anchors.bottomMargin: 16
-			anchors.horizontalCenter: parent.horizontalCenter
-		}
-
-		RowLayout {
-			anchors.fill: parent
-			anchors.leftMargin: 16
-			ToolButton {
-				id: idClose
-				icon.source: "qrc:/assets/close.png"
-				onReleased: {
-					idDelLoader.item.y = 100;
-					idDelLoader.item.scale = 0;
-					idP.selectedIndexes = [];
-					idPage.state = "idle";
-				}
-			}
-			Label {
-				id: idSelectLbl
-				Layout.fillWidth: true
-				horizontalAlignment: Qt.AlignHCenter
-				verticalAlignment: Qt.AlignVCenter
-			}
-			CheckBox {
-				id: idCheckAll
-				implicitWidth: idClose.width
-				implicitHeight: idClose.height
-				hoverEnabled: false
-				rightPadding: 24
-				checked: (idP.selectedIndexes.length === idAlarmList.count)
-
-				onToggled: {
-					if (idP.selectedIndexes.length === idAlarmList.count) {
-						idP.deselectAll();
-					} else {
-						idP.selectAll();
-					}
-				}
-			}
-		}
-	}
-
-	Component {
-		id: idDeleteBtnComponent
-		RoundButton {
-			y: 100
-			scale: 0
-
-			Component.onCompleted: {
-				y = 0;
-				scale = 1;
-			}
-
-			Material.background: Material.BlueGrey
-			icon.source: "qrc:/assets/delete.png"
-			icon.color: Material.foreground
-			onReleased: {
-				idPage.state = "idle";
-				idP.deleteSelectedItems();
-				idP.selectedIndexes = [];
-			}
-
-			Behavior on y {
-				NumberAnimation { duration: 200 }
-			}
-			Behavior on scale {
-				NumberAnimation { duration: 200 }
-			}
+	function onSelectDeletePressed(selectedIndexes) {
+		if (selectedIndexes.length === 1) {
+			AlarmModel.remove(selectedIndexes[0]);
+		} else {
+			AlarmModel.removeMultiple(selectedIndexes);
 		}
 	}
 
@@ -226,16 +34,16 @@ Page {
 			height: 72
 
 			onPressAndHold: {
-				if (idPage.state !== "select") {
+				if (!idSelectObj.selectEnabled()) {
+					idSelectObj.setSelectEnable(true);
 					idCheck.toggle();
 					idCheck.toggled();
-					idPage.state = "select";
 				}
 			}
 
 			contentItem: RowLayout {
 				AlarmDelegate {
-					enabled: (idPage.state === "idle")
+					enabled: !idSelectObj.selectEnabled()
 					Layout.fillWidth: true
 					Layout.fillHeight: true
 				}
@@ -243,19 +51,19 @@ Page {
 					id: idCheck
 					implicitWidth: 32
 					implicitHeight: 32
-					Layout.preferredWidth: (idPage.state === "select")?
+					Layout.preferredWidth: idSelectObj.selectEnabled() ?
 											   implicitWidth: 0
 					Layout.preferredHeight: implicitWidth
 					Layout.alignment: Qt.AlignCenter
 					visible: scale > 0.01
-					scale: (idPage.state === "select") ? 1: 0
+					scale: idSelectObj.selectEnabled() ? 1: 0
 
 					function allChanged(selected) {
 						idCheck.checked = selected;
 					}
 
 					Component.onCompleted: {
-						idP.selectAllChanged.connect(allChanged);
+						idSelectObj.selectAllChanged.connect(allChanged);
 					}
 
 					onVisibleChanged: {
@@ -292,10 +100,10 @@ Page {
 
 					onToggled: {
 						if (checked) {
-							idP.itemSelected(model.index)
+							idSelectObj.itemSelected(model.index);
 						}
 						else {
-							idP.itemDeselected(model.index)
+							idSelectObj.itemDeselected(model.index);
 						}
 					}
 
@@ -318,6 +126,7 @@ Page {
 				bottomMargin: 16
 				horizontalCenter: parent.horizontalCenter
 			}
+			scale: idSelectObj.selectEnabled() ? 0: 1
 			button.highlighted: true
 			imageIcon.source: "qrc:/assets/plus.png"
 

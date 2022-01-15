@@ -23,5 +23,6 @@
         <file>assets/back.png</file>
         <file>assets/delete.png</file>
         <file>assets/selectall.png</file>
+        <file>MainSwipePage.qml</file>
     </qresource>
 </RCC>

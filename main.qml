@@ -3,9 +3,6 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import reminder
-import 'alarm'
-import 'time'
-import 'chrono'
 
 ApplicationWindow {
 	id: idRoot
@@ -35,7 +32,7 @@ ApplicationWindow {
 
 	StackView {
 		id: idMainStack
-		initialItem: idMainPage
+		initialItem: "MainSwipePage.qml"
 		anchors.fill: parent
 		focus: true
 
@@ -57,42 +54,7 @@ ApplicationWindow {
 			NumberAnimation { property: "opacity"; from: 0; to: 1 }
 		}
 		popExit: Transition {
-			NumberAnimation { property: "x"; from: 0; to:idMainStack.width }
-		}
-	}
-
-	Component {
-		id: idMainPage
-		Page {
-			SwipeView {
-				id: idMainSwipe
-				anchors.fill: parent
-				currentIndex: idPageButtons.currentIndex
-
-				AlarmPage {
-					id: idAlarmPage
-				}
-
-				TimePage {}
-
-				ChronoPage {}
-			}
-
-			footer: TabBar {
-				id: idPageButtons
-				implicitHeight: 48
-				currentIndex: idMainSwipe.currentIndex
-
-				TabButton {
-					text: qsTr("Alarms")
-				}
-				TabButton {
-					text: qsTr("Time")
-				}
-				TabButton {
-					text: qsTr("Chrono")
-				}
-			}
+			NumberAnimation { property: "x"; from: 0; to: idMainStack.width }
 		}
 	}
 }
